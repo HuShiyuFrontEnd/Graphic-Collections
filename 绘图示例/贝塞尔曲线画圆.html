@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <meta charset='utf-8'/>
+        <meta name='viewport' content='user-scalable=no,initial-scale=1.0'/>
+        <title>贡培兹死亡率曲线</title>
+        <meta name="keywords" content="flex"/>
+        <meta name="description" content="flex" />
+        <meta name="wap-font-scale" content="no">
+    </head>
+    <style>
+        body{width:100%;height:100%;margin:0;}
+        canvas{margin:50px;}
+    </style>
+    <body>
+        <canvas></canvas>
+    </body>
+    <script>
+        let canvas = document.getElementsByTagName('canvas')[0];
+        let _width = 800;
+        let _height = 800;
+        canvas.width = _width;
+        canvas.height = _height;
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#000';
+        ctx.strokeStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.font="15px Arial";
+        
+        let pointOrigin = new Vector2(0, 0);
+        let xAxis = new Vector2(800,0);
+        let yAxis = new Vector2(0, 800);
+        drawLine(pointOrigin, xAxis);
+        drawLine(pointOrigin, yAxis);
+        // drawXYFunc(exp,0,800)
+        //贝塞尔曲线画圆有一个参数，那就是控制点到绘制点的距离为圆半径的 4/3 * (Math.sqrt(2) - 1) 倍
+        drawBezier(exp, [200,400], [200,289.54305003384127], [289.54305003384127, 200], [400, 200]);
+        drawBezier(exp, [200,400], [200,510.45694996615873], [289.54305003384127, 600], [400, 600]);
+        drawBezier(exp, [600,400], [600,510.45694996615873], [510.45694996615873, 600], [400, 600]);
+        drawBezier(exp, [600,400], [600,289.54305003384127], [510.45694996615873, 200], [400, 200]);
+        setDescription('测试曲线（x:??，y：??）', 400, 780)
+
+        function setDescription(text, x, y){
+            ctx.fillText(text, x, y);
+        }
+
+        // function gompertz(x){
+        //     let _A = -1;
+        //     let _B = 1;
+        //     let _c = 1.00002;
+        //     return 200 - 200 * Math.exp( -_A*x -_B / Math.log(_c) * (Math.pow(_c, x) - 1) );
+        // }
+        
+        //a,b,c,d是四个点，a起始点，b-a的控制点 c-d的控制点 d结束点
+        function exp(x, a, b, c, d){
+            let y = 1 - x;
+            return [ a[0] * Math.pow(y, 3) + b[0] * 3 * x * y * y + c[0] * 3 * x * x * y + d[0] * Math.pow(x, 3) , a[1] * Math.pow(y, 3) + b[1] * 3 * x * y * y + c[1] * 3 * x * x * y + d[1] * Math.pow(x, 3) ];
+            // return 200 - 4000/(x+19);
+        }
+
+        function Vector2(x,y){
+            this._x = x;
+            this._y = y;
+            this.array = [x, y];
+        }
+
+        function drawLine(vector2A,vector2B){
+            ctx.beginPath();
+            ctx.moveTo(vector2A._x, _height-vector2A._y);
+            ctx.lineTo(vector2B._x, _height-vector2B._y);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        function drawXYFunc(func, startX, endX){
+            for(let i = startX;i < endX;i++){
+                // console.log(func(i))
+                ctx.beginPath();
+                ctx.rect(i, _height - func(i), 1, 1);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function drawBezier(func, a, b, c, d){
+            ctx.beginPath();
+            ctx.arc(a[0], _height - a[1], 5, 0, Math.PI * 2);
+            ctx.arc(d[0], _height - d[1], 5, 0, Math.PI * 2);
+            ctx.fillStyle='#0f0';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.closePath();
+            ctx.fillStyle='#f00';
+            ctx.arc(b[0], _height - b[1], 5, 0, Math.PI * 2);
+            ctx.arc(c[0], _height - c[1], 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.fillStyle='#000';
+            for(let i = 0;i < 1001;i++){
+                let point = func(i/1000, a, b, c, d);
+                ctx.beginPath();
+                ctx.rect(point[0], _height - point[1], 1, 1);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+    </script>
+</html>

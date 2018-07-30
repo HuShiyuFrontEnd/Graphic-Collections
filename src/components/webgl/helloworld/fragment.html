@@ -1,0 +1,7 @@
+//片段着色器没有默认精度，所以需要我们自己手动设置一个
+//mediump是一个常用的默认值，代表着中等精度 mediump precision
+precision mediump float;
+
+void main(){
+    gl_FragColor = vec4(1.0, 0.0, 0.5, 1.0);//返回“瑞迪施紫色”
+}

@@ -1,0 +1,17 @@
+precision mediump float;
+
+uniform sampler2D u_image;
+uniform int u_mode;
+
+varying vec2 v_texCoord;
+
+void main(){
+    if(u_mode == 1)
+        gl_FragColor = texture2D(u_image, v_texCoord);
+    else if(u_mode == 2)
+        gl_FragColor = texture2D(u_image, v_texCoord).bgra;
+    else if(u_mode == 3)
+        gl_FragColor = texture2D(u_image, v_texCoord).grba;
+    else if(u_mode == 4)
+        gl_FragColor = 1/texture2D(u_image, v_texCoord);
+}

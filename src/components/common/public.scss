@@ -1,0 +1,15 @@
+@function px1 ($px) {
+    @return ($px / 1) * 1px
+};
+
+@function px375 ($px) {
+    @return ($px / 37.5) * 1rem
+};
+
+@mixin createBlur($blur){
+    -webkit-filter: blur($blur);
+    -moz-filter: blur($blur);
+    -o-filter: blur($blur);
+    -ms-filter: blur($blur);
+    filter: blur($blur);
+};

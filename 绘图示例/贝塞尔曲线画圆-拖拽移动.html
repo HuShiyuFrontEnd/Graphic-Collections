@@ -1,0 +1,215 @@
+<html>
+    <head>
+        <meta charset='utf-8'/>
+        <meta name='viewport' content='user-scalable=no,initial-scale=1.0'/>
+        <title>贡培兹死亡率曲线</title>
+        <meta name="keywords" content="flex"/>
+        <meta name="description" content="flex" />
+        <meta name="wap-font-scale" content="no">
+    </head>
+    <style>
+        body{width:100%;height:100%;margin:0;}
+        canvas{margin:50px;}
+    </style>
+    <body>
+        <canvas></canvas>
+    </body>
+    <script>
+        const CIRCLE_BEZIER = 0.55228475;//画圆用的参数
+        let canvas = document.getElementsByTagName('canvas')[0];
+        let _width = 800;
+        let _height = 800;
+        canvas.width = _width;
+        canvas.height = _height;
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#000';
+        ctx.strokeStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.font="15px Arial";
+        
+        let pointOrigin = new Vector2(0, 0);
+        let xAxis = new Vector2(800,0);
+        let yAxis = new Vector2(0, 800);
+        drawLine(pointOrigin, xAxis);
+        drawLine(pointOrigin, yAxis);
+        setDescription('测试曲线（x:??，y：??）', 400, 780)
+
+        //t=当前动画运行了多长时间,b=动画开始位置,c动画结束位置,d=动画总时长
+        const LINEAR = function(t, b, c, d){
+            if(t > d) t = d;
+            return ((c - b) * t / d + b) ;
+        }
+        window.RAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(callback, element) {
+            var start,
+                finish;
+            window.setTimeout(function(){
+                start =+ new Date();
+                callback(start);
+                finish =+ new Date();
+                self.timeout = 1000 / 60 - (finish - start);
+            },self.timeout);
+        };
+        var lasttime = Date.now();
+        var firsttime = lasttime;
+        
+        //总时长 1s ，移动距离 200px 
+        //第一阶段，右侧被拉扯，d 0 -> 0.6
+        //第二阶段，模拟空气动力学的感觉，整体被挤压成符合空气动力学的流线型
+        //第三阶段，触壁反弹，惯性作用被挤压
+        //第四阶段，回复原形
+        var ps = [0, 0, 0];//d,e,f
+        let speed = 2;
+        let l1 = 400 * speed;
+        let l2 = 400 * speed;
+        let l3 = 100 * speed;
+        let l4 = 100 * speed;
+        let t1 = l1;
+        let t2 = l1 + l2;
+        let t3 = l1 + l2 + l3;
+        let t4 = l1 + l2 + l3 + l4;
+        //d,e造成的位移感和f的换算比应该是 1.1 * d(或e) * r(50) = f
+        function drawAnimCircle(delt, total){
+            // console.log(delt,total)
+            if(total < l1){
+                ps[0] = LINEAR(total, 0, 0.6, l1);
+            }else if(total < t2){
+                ps[0] = LINEAR(total - t1, 0.6, 0, l2);
+                ps[1] = LINEAR(total - t1, 0, -0.8, l2);
+                ps[2] = LINEAR(total - t1, 0, 400, l2);
+            }else if(total < t3){
+                ps[0] = LINEAR(total - t2, 0, -0.05, l3);
+                ps[1] = LINEAR(total - t2, -0.8, 0.2, l3);
+                ps[2] = LINEAR(total - t2, 400, 411, l3);
+            }else if(total < t4){
+                ps[0] = LINEAR(total - t3, -0.05, 0, l4);
+                ps[1] = LINEAR(total - t3, 0.2, 0, l4);
+                ps[2] = LINEAR(total - t3, 411, 400, l4);
+            }
+            drawOneframe(...ps);
+        }
+
+        function anim(){
+            var now = Date.now();
+            var delt = now - lasttime;
+
+            if(delt < 500){
+                drawAnimCircle(delt, now - firsttime);
+            }
+            
+            lasttime = now;
+            //total = now - firsttime
+            RAF(anim);
+        }
+        anim();
+        
+        //d右侧偏移量，e左侧偏移量,f整体偏移量
+        function drawOneframe(d,e,f){
+            ctx.clearRect(0, 0, _width, _height);
+            let points = createCircleByBezier(100+f,400,50,d,e);
+            //贝塞尔曲线画圆有一个参数，那就是控制点到绘制点的距离为圆半径的 4/3 * (Math.sqrt(2) - 1) 倍
+            ctx.beginPath();
+            ctx.moveTo(points[0], points[1]);
+            ctx.bezierCurveTo(...points.slice(2, 8));
+            ctx.bezierCurveTo(...points.slice(8, 14));
+            ctx.bezierCurveTo(...points.slice(14, 20));
+            ctx.bezierCurveTo(...points.slice(20, 26));
+            ctx.closePath();
+            ctx.fill();
+            // drawBezier(BezierCurve, ...points.slice(0, 8));
+            // drawBezier(BezierCurve, ...points.slice(6, 14));
+            // drawBezier(BezierCurve, ...points.slice(12, 20));
+            // drawBezier(BezierCurve, ...points.slice(18, 26));
+        }
+
+        function setDescription(text, x, y){
+            ctx.fillText(text, x, y);
+        }
+
+        //求出贝塞尔曲线的一系列点 d:右侧偏移量 e左侧
+        function createCircleByBezier(x, y, r, d, e){
+            let l = r * CIRCLE_BEZIER;
+            d = d * r;
+            e = e * r;
+            let points = [
+                x - r + 1.1 * e, y, //起始点
+                //第一条贝塞尔曲线（每一条都以上一个点作为起始点
+                x - r + e, y + l, //控制点1
+                x - l, y + r, //控制点2
+                x, y + r, //结束点
+                //第二条贝塞尔曲线
+                x + l, y + r, //控制点1
+                x + r + d, y + l, //控制点2
+                x + r + 1.1 * d, y, //结束点
+                //第三条贝塞尔曲线
+                x + r + d, y - l, //控制点1
+                x + l, y - r, //控制点2
+                x, y - r, //结束点
+                //第四条贝塞尔曲线
+                x - l, y - r, //控制点1
+                x - r + e, y - l, //控制点2
+                x - r + 1.1 * e, y, //结束点
+            ];
+            let p = `M${points[0]},${points[1]}`;
+            for(let i = 2;i < points.length; i=i+6 ){
+                p = p + `C${points[i]} ${points[i + 1]}, ${points[i + 2]} ${points[i + 3]}, ${points[i + 4]} ${points[i + 5]}`;
+            }
+            return points;
+        }
+
+        //a,b,c,d是四个点，a起始点，b-a的控制点 c-d的控制点 d结束点
+        function BezierCurve(x, a0, a1, b0, b1, c0, c1, d0, d1){
+            let y = 1 - x;
+            return [ a0 * Math.pow(y, 3) + b0 * 3 * x * y * y + c0 * 3 * x * x * y + d0 * Math.pow(x, 3) , a1 * Math.pow(y, 3) + b1 * 3 * x * y * y + c1 * 3 * x * x * y + d1 * Math.pow(x, 3) ];
+            // return 200 - 4000/(x+19);
+        }
+
+        function Vector2(x,y){
+            this._x = x;
+            this._y = y;
+            this.array = [x, y];
+        }
+
+        function drawLine(vector2A,vector2B){
+            ctx.beginPath();
+            ctx.moveTo(vector2A._x, _height-vector2A._y);
+            ctx.lineTo(vector2B._x, _height-vector2B._y);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        function drawXYFunc(func, startX, endX){
+            for(let i = startX;i < endX;i++){
+                // console.log(func(i))
+                ctx.beginPath();
+                ctx.rect(i, _height - func(i), 1, 1);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        //直接画出每一个点
+        function drawBezier(func, a0, a1, b0, b1, c0, c1, d0, d1){
+            ctx.beginPath();
+            ctx.arc(a0, _height - a1, 5, 0, Math.PI * 2);
+            ctx.arc(d0, _height - d1, 5, 0, Math.PI * 2);
+            ctx.fillStyle='#0f0';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.closePath();
+            ctx.fillStyle='#f00';
+            ctx.arc(b0, _height - b1, 5, 0, Math.PI * 2);
+            ctx.arc(c0, _height - c1, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.fillStyle='#000';
+            for(let i = 0;i < 1001;i++){
+                let point = func(i/1000, a0, a1, b0, b1, c0, c1, d0, d1);
+                ctx.beginPath();
+                ctx.rect(point[0], _height - point[1], 1, 1);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+    </script>
+</html>
