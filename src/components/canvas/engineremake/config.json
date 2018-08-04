@@ -1,0 +1,8 @@
+{
+    "sheetPath":"/static/assets/",
+    "sheetList":{
+        "preload":[ 
+            "test.jpg"
+        ]
+    }
+}

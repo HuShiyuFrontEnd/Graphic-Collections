@@ -1,0 +1,91 @@
+.container{
+    width:100%;
+    height:100%;
+    // background-color:#2299cc;
+    overflow:hidden;
+    form{
+        .form-group{
+            width:200px;
+            height:36px;
+            position: absolute;
+            margin-left:-100px;
+            left:50%;
+            top:40%;
+            input{
+                background-color:transparent;
+                border:none;
+                outline:none;
+                box-shadow:none;
+                width:100%;
+                height:100%;
+                line-height:32px;
+                text-indent:5px;
+                letter-spacing:4px;
+                padding:2px 0;
+                font-size:16px;
+                display:inline-block;
+                // border-bottom:1px solid #999;
+                &:focus{
+                    ~ svg{
+                        .elastic{
+                            stroke:#66ccff;
+                        }
+                    }
+                }
+                &:valid{
+                    ~ svg{
+                        .elastic{
+                            animation:elastic 0.8s ease forwards;
+                        }
+                        .success{
+                            opacity:1;
+                            transform:translate(168px, 10px) scale(1, 1);
+                        }
+                    }
+                }
+            }
+            svg{
+                pointer-events: none;
+                transition-duration:0.2s;
+                position: absolute;
+                left:0;
+                top:0;
+                path{
+                    stroke:#999;
+                    stroke-width:2px;
+                    fill:none;
+                }
+                .success{
+                    transition-duration:0.2s;
+                    opacity:0;
+                    stroke:#66ccff;
+                    transform:translate(172px, 20px) scale(0.4, 0.4);
+                }
+            }
+        }
+    }
+}
+
+@keyframes elastic{
+    33%{
+        d:path('
+        M0,35
+        L155,35
+        L175,28
+        L195,35
+        L200,35
+        ');
+    }
+    66%{
+        d:path('
+        M0,35
+        L155,35
+        L175,40
+        L195,35
+        L200,35
+        ');
+    }
+}
+// M0,12 L223.166144,12 C217.241379,12 217.899687,12 225.141066,12 C236.003135,12 241.9279,12 249.827586,12 C257.727273,12 264.639498,12 274.514107,12 C281.097179,12 281.755486,12 276.489028,12
+// path("M0,12 L226,12 C220,12 220.666667,12 228,12 C239,12 245,1 253,1 C261,1 268,12 278,12 C284.666667,12 285.333333,12 280,12")
+// path("M0,12 L226,12 C220,12 220.666667,12 228,12 C239,12 245,17 253,17 C261,17 268,12 278,12 C284.666667,12 285.333333,12 280,12")

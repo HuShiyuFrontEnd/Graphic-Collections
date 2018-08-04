@@ -31,12 +31,19 @@ const sliderScss = () => import('@/components/cssonly/slider/style.scss');
 const coolformDOM = () => import('@/components/cssonly/coolform/coolform.html');
 const coolformScss = () => import('@/components/cssonly/coolform/coolform.scss');
 const coolformController = () => import('@/components/cssonly/coolform/coolform.js');
+const pureCSSJumpDOM = () => import('@/components/cssonly/pureCSSJump/purecss.html');
+const pureCSSJumpScss = () => import('@/components/cssonly/pureCSSJump/purecss.scss');
+const pureCSSJumpController = () => import('@/components/cssonly/pureCSSJump/purecss.js');
+//svg
+const elasticInputScss = () => import('@/components/svg/elasticInput/index.scss');
+const elasticInputDOM = () => import('@/components/svg/elasticInput/index.html');
 //canvas
-const engineremake = () => import('@/components/canvas/engineremake/index.js')
+const engineremake = () => import('@/components/canvas/engineremake/index.js');
+const bonerobot = () => import('@/components/canvas/bonerobot/index.js');
 
 
 //轻dom架构
-const router = {
+let router = {
     //道是万般皆有意，独取五彩化虹毫
     'home':{
         dom:homeDOM,
@@ -82,7 +89,16 @@ const router = {
             },
         }
     },
-    //麻雀虽小具五脏，茅庐未出定三分
+    //螣蛇乘雾吞巨象，遇雨化龙金鳞开
+    'svg':{
+        children:{
+            'elasticinput':{
+                dom:elasticInputDOM,
+                styles:[elasticInputScss]
+            }
+        }
+    },
+    //麻雀虽小五脏具，茅庐未出三国分
     'cssonly':{
         children:{
             'slider':{
@@ -95,6 +111,11 @@ const router = {
                 dom:coolformDOM,
                 styles:[coolformScss],
             },
+            'purecssjump':{
+                main:pureCSSJumpController,
+                dom:pureCSSJumpDOM,
+                styles:[pureCSSJumpScss]
+            }
         }
     },
     //天地无涯分四象，洪荒来去拓两仪
@@ -104,6 +125,9 @@ const router = {
         children:{
             'engineremake':{
                 main:engineremake
+            },
+            'bonerobot':{
+                main:bonerobot
             }
         }
     },
@@ -130,6 +154,6 @@ const router = {
             }
         }
     }
-}
+};
 
 export default router;
