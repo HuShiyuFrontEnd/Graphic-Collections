@@ -27,19 +27,20 @@ class Main{
         console.log(width, height)
     }
     firstScene(){
-        // let scene = core.useScene('first');
+        core.useScene('firstScene')
 
-        let test_jpg = new core.Bitmap('test_jpg');
+        let circle = new core.Shape();
+        circle.width = 100;
+        circle.height = 100;
+        circle.ctx.rect(10, 10, 50, 50);
+        circle.ctx.fill();
 
-        console.log(test_jpg.buffer)
+        res.addShapeTexture('circle', circle);
 
-        let update = new Update('global',(delt, total) => {
-            // core._ctx.drawImage(img)
-            let target = test_jpg.buffer
-            core._ctx.drawImage(target, 0, 0);
-        })
+        let bitmap = new 
+
+        core.render()
     }
 }
 
 let main = new Main();
-console.log(core)

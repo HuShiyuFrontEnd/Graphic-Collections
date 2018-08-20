@@ -6,9 +6,9 @@ export default {
         }
     },
     valueInRange(val,min,max){
-        if(min!=undefined&&val<min)
+        if(min != undefined && val < min)
             return min;
-        if(max!=undefined&&val>max)
+        if(max != undefined && val > max)
             return max;
         return val;
     },

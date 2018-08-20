@@ -1,0 +1,72 @@
+//该示例仿制自 https://codepen.io/m0n4d/pen/ajKdOR 感谢M0n4d的佳作
+
+$gridSize:10;
+$gridLength:($gridSize * $gridSize - 1);
+$animationTime:2s;
+
+$backgroundColor:#D9F7F1;
+$blockColorLight:#A3E7FE;
+$blockColorLight2:#63E7EE;
+$blockColorDark:#4AD0DB;
+$blockColorHover:#C0F2FB;
+$blockColorShadow:#1498ad;
+
+@mixin waveGenerator{
+    @for $i from 0 through $gridLength {
+        $num:(($i - floor($i / $gridSize) * $gridSize) + floor($i / $gridSize) + 1);
+        $max:(($gridLength - floor($gridLength / $gridSize) * $gridSize) + floor($gridLength / $gridSize) + 1);
+        div:nth-child(#{($i + 1)}):before{
+            content:'#{$num}';
+        }
+        div:nth-child(#{($i + 1)}){
+            animation-delay: ($num * $animationTime / $max) ;
+        }
+    }
+}
+
+body{
+    background-color:$backgroundColor;
+    .container{
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-50%);
+        transform-style:perserve-3d;
+        perspective: 500px;
+        transform-origin:50% 50%;
+        transform:translate(-50%,-50%) scale(1, -1) rotateX(130deg) rotateZ(45deg) ;
+        display:grid;
+        width:320px;
+        height:320px;
+        grid-template-columns:repeat($gridSize, 1fr);//1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows:repeat($gridSize, 1fr);
+        div{
+            cursor:pointer;
+            animation:wave $animationTime infinite;
+            box-shadow:0px 0px 0px $blockColorShadow;
+            background-color:$blockColorDark;
+        }
+        // div:nth-child(2n+1){
+        //     background-color:$blockColorLight;
+        // }
+        // div:nth-child(2n+0){
+        //     background-color:$blockColorDark;
+        // }
+        div:hover{
+            background-color:$blockColorHover;
+        }
+        div:before{
+            color:#fff;
+        }
+        @include waveGenerator;
+    }
+}
+
+@keyframes wave{
+    50%{
+        transform:translateZ(16px) translateY(-32px) translateX(-32px);
+        box-shadow:15px 15px 30px $blockColorShadow;
+        background-color:$blockColorLight2;
+    }
+}
+  

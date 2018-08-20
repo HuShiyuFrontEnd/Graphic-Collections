@@ -95,6 +95,22 @@ class Res{
         if(this.onLoadProgress)
             this.onLoadProgress(...progress);
     }
+    //未测试功能
+    addAsyncTexture(name, url){
+        if(/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(url)){
+            this.imgLoader(url, name, groupname);
+        }else{
+            log(`没有为${url}找到适合的loader`)
+        }
+    }
+    addShapeTexture(name, shape){
+        if(this._sheetStack[name]){
+            log(`已有名为${name}的贴图了`);
+            return false;
+        }
+        let texture = new Texture(shape.buffer);
+        this._sheetStack[name] = texture;
+    }
     //event
     //针对单个加载项信息处理的事件
     //onLoadEach

@@ -1,3 +1,5 @@
+import machineRouter from './machineRouter.js';
+
 const WebGLBaseSCSS = () => import('@/components/webgl/lib/webglBase.scss');
 const WebGLBaseDOM = () => import('@/components/webgl/lib/webglBase.html');
 const ThreeJSBaseJS = () => import('@/components/threejs/lib/base.js');
@@ -40,7 +42,6 @@ const elasticInputDOM = () => import('@/components/svg/elasticInput/index.html')
 //canvas
 const engineremake = () => import('@/components/canvas/engineremake/index.js');
 const bonerobot = () => import('@/components/canvas/bonerobot/index.js');
-
 
 //轻dom架构
 let router = {
@@ -153,7 +154,17 @@ let router = {
                 main:birdd10
             }
         }
+    },
+    //笑领汉骑三千骏，直捣黄龙万里遥
+    'free':{
+
     }
 };
+
+for(let p in machineRouter){
+    for(let q in machineRouter[p]){
+        router[p][q] = machineRouter[p][q];
+    }
+}
 
 export default router;

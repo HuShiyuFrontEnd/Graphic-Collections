@@ -1,0 +1,1 @@
+console.log("this is main js for piece - animateicon1 in project svg")
