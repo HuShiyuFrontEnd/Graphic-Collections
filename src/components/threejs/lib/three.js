@@ -45057,6 +45057,8 @@
 	exports.ImageUtils = ImageUtils;
 	exports.Projector = Projector;
 	exports.CanvasRenderer = CanvasRenderer;
+	
+	window.THREE = exports;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 

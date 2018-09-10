@@ -1,0 +1,193 @@
+<div class='container'>
+    <div class='peom'>
+        <div class='first'>涉江采芙蓉，兰泽多芳草</div>
+        <div>采之欲遗谁，所思在远道</div>
+    </div>
+    <div class='example1 example'>
+        <div class='leaf leaf1'></div>
+        <div class='leaf leaf2'></div>
+        <!--:doodle中的属性是描述grid整体的，而外部则对每一个做出描述-->
+            <!--grid = 'n' n*n的grid -->
+            <!--grid = 'nxm' n*m的grid -->
+            <!--或者写在:doodle中 @grid:15, 1/ 8em, 8em; -->
+                <!-- overflow: hidden; -->
+        <css-doodle id="doodle" #1>
+                :doodle {
+                    transform-style:preserve-3d;
+                    persepective:500;
+                    @grid: 8x15 / 100%;
+                }
+                --indexone:@pick(0, 1, 2);
+                --indextwo:@pick(3, 4, 5);
+                --indexthr:@pick(6, 7, 8);
+                @place-cell: center;
+
+                @nth(n){
+                    transform-origin: 100% 0;
+                    z-index:9;
+                    width: calc((15 + @rand(5)) * 1%);
+                    height: calc((20 + @rand(5)) * 1px);
+                    opacity:0.3;
+                    border-radius: 100% 0%;
+                    border-right:10px solid #EB5526;
+                    border-top:4px solid #FC9939;
+                    border-left:none;
+                    border-bottom:none;
+                    transform:
+                    translate(-50%, 50%)
+                    rotate(calc(@rand(360) * 1deg ));
+                }
+                @col(4){
+                    z-index:9;
+                    width: 20%;
+                    height: 20px;
+                    opacity:0.8;
+                    transform-style:preserve-3d;
+                    --pos:@rand(180, 360);
+                    border-radius: 100% 0%;
+                    transform-origin: 100% 0;
+                    border-left:4px solid #FC9939;
+                    border-right:none;
+                    border-top:none;
+                    transform:
+                        translate(-50%, 50%)
+                        rotateZ(calc(var(--pos) * 1deg - 75deg) );
+                        :after{
+                            content:'';
+                            display:block;
+                            width:4px;
+                            height:4px;
+                            background-color:#FC9939;
+                            margin-left:-40px;
+                            margin-top:20px;
+                            border-radius:100%;
+                        }
+                }
+                @col(5){
+                    z-index:9;
+                    width: 20%;
+                    height: 20px;
+                    opacity:0.8;
+                    transform-style:preserve-3d;
+                    --pos:@rand(180, 360);
+                    border-radius: 100% 0%;
+                    transform-origin: 100% 0;
+                    border-left:4px solid #FC9939;
+                    border-right:none;
+                    border-top:none;
+                    transform:
+                        translate(-50%, 50%)
+                        rotateZ(calc(var(--pos) * 1deg - 75deg) );
+                        :after{
+                            content:'';
+                            display:block;
+                            width:4px;
+                            height:4px;
+                            background-color:#FC9939;
+                            margin-left:-40px;
+                            margin-top:20px;
+                            border-radius:100%;
+                        }
+                }
+                @col(6){
+                    z-index:9;
+                    width: 20%;
+                    height: 20px;
+                    opacity:0.8;
+                    transform-style:preserve-3d;
+                    transform-origin: 0 0;
+                    --pos:@rand(0, 180);
+                    border-radius: 0% 100%;
+                    transform-origin: 100% 100%;
+                    border-left:4px solid #FC9939;
+                    border-right:none;
+                    border-top:none;
+                    transform:
+                      translate(-50%, -50%)
+                      rotateZ(calc(var(--pos) * 1deg - 105deg) );
+                      :after{
+                          content:'';
+                          display:block;
+                          width:4px;
+                          height:4px;
+                          background-color:#FC9939;
+                          margin-left:-40px;
+                          margin-top:-15px;
+                          border-radius:100%;
+                      }
+                }
+                @col(7){
+                    z-index:9;
+                    width: 20%;
+                    height: 20px;
+                    opacity:0.8;
+                    transform-style:preserve-3d;
+                    transform-origin: 0 0;
+                    --pos:@rand(0, 180);
+                    border-radius: 0% 100%;
+                    transform-origin: 100% 100%;
+                    border-left:4px solid #FC9939;
+                    border-right:none;
+                    border-top:none;
+                    transform:
+                      translate(-50%, -50%)
+                      rotateZ(calc(var(--pos) * 1deg - 105deg) );
+                      :after{
+                          content:'';
+                          display:block;
+                          width:4px;
+                          height:4px;
+                          background-color:#FC9939;
+                          margin-left:-40px;
+                          margin-top:-15px;
+                          border-radius:100%;
+                      }
+                }
+                @col(1){
+                    transform-origin: 100% 0;
+                    opacity:1;
+                    @size: 40%;
+                    box-shadow:0 0 calc(var(--indexthr) * 1px + 5px) rgba(0, 0, 0, calc(var(--indexthr) * 0.01 + 0.05));
+                    border-radius: 100% 0%;
+                    z-index:var(--indexthr);
+                    border:1px solid rgba(255, 255, 255, 0.1);
+                    background:linear-gradient(45deg, #FABFFf 20%, #ffffff 75%, #ffffff 100%);
+                    transform:
+                      translate(-50%, 50%)
+                      rotate(calc((360 / 8 * @row() + @col() * 15 + @pick(0, 1, 2, 3, 4, 5, 6, 7) * 1) * 1deg ));
+                    :after{
+                        display:none;
+                    }
+                }
+                @col(2){
+                    transform-origin: 100% 0;
+                    opacity:1;
+                    @size: 50%;
+                    box-shadow:0 0 calc(var(--indextwo) * 1px + 10px) rgba(0, 0, 0, calc(var(--indextwo) * 0.01 + 0.15));
+                    border-radius: 100% 0%;
+                    z-index:var(--indextwo);
+                    border:1px solid rgba(255, 255, 255, 0.1);
+                    background:linear-gradient(45deg, #FABFFf 20%, #ffffff 75%, #ffffff 100%);
+                    transform:
+                      translate(-50%, 50%)
+                      rotate(calc((360 / 8 * @row() + @col() * 15 + @pick(0, 1, 2, 3, 4, 5, 6, 7) * 1) * 1deg ));
+                      :after{
+                        display:none;
+                      }
+                }
+                @col(3){
+                    transform-origin: 100% 0;
+                    opacity:1;
+                    @size: 60%;
+                    box-shadow:0 0 calc(var(--indexone) * 1px + 5px) rgba(0, 0, 0, calc(var(--indexone) * 0.01 + 0.05));
+                    border-radius: 100% 0%;
+                    z-index:var(--indexone);
+                    border:1px solid rgba(255, 255, 255, 0.1);
+                    background:linear-gradient(45deg, #FABFFf 20%, #ffffff 75%, #ffffff 100%);
+                    transform:
+                      translate(-50%, 50%)
+                      rotate(calc((360 / 8 * @row() + @col() * 15 + @pick(0, 1, 2, 3, 4, 5, 6, 7) * 1) * 1deg ));
+                }
+        </css-doodle>
+    </div>
+</div>

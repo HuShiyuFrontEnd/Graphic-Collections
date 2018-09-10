@@ -1,0 +1,43 @@
+<style id='chartLabel'>
+    .cell:before{
+        content:var(--bar-value-string);
+        position:absolute;
+        top:0;
+        width:auto;
+        color:#fff;
+        transform:translate(0, 10px);
+    }
+    .cell:after{
+        content:var(--bar-label);
+        transform:translate(0, 20px);
+        width:auto;
+    }
+</style>
+<div class='example'>
+    <css-doodle id="content" #1>
+        :doodle {
+            @grid: 2x8 / 100%;
+            grid-gap:5px;
+        }
+        :container{
+            counter-reset:section;
+            align-items:end;
+        }
+        @row(1){
+            @size:100%;
+            counter-increment:section;
+            height:calc(var(--bar-value) / var(--bar-max-value) * 100%);
+            align-items:flex-end;
+            background:linear-gradient(to top, #188DF0 0%, #80BDF5 100%);
+        }
+        @row(2){
+            :before{
+                content:'';
+            }
+            :after{
+                content:'';
+            }
+        }
+    </css-doodle>
+</div>
+<div class='ddd'></div>

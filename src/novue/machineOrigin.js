@@ -1,1 +1,1 @@
-let a ={"webgl":{"children":[]},"performance":{"children":[]},"svg":{"children":["animateicon1"]},"cssonly":{"children":["mixmode","3dcard","csswave"]},"canvas":{"children":[]},"math":{"children":[]},"threejs":{"children":[]}};module.exports = a;
+let a ={"webgl":{"children":[]},"performance":{"children":[]},"svg":{"children":["animateicon1","iris"]},"cssonly":{"children":["mixmode","3dcard","csswave","bitefinger","testground"]},"canvas":{"children":["linesnake"]},"math":{"children":[]},"threejs":{"children":[]},"doodle":{"children":["start","chart"]}};module.exports = a;

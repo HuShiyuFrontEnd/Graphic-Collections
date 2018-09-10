@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+svg {
+  mix-blend-mode: overlay;
+}
+
+polyline {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+/*   stroke-width: 2; */
+}

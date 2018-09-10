@@ -1,0 +1,439 @@
+$num:11;
+$animationTime:1s;
+
+@mixin createElement{
+    @for $i from 1 through $num{
+        div:nth-child(#{$num}n+#{$i}){
+            top: 50px * $i;
+            animation-delay: $i / $num * $animationTime;
+        }
+    }
+}
+
+@mixin createKeyFrames{
+    @keyframes jump{
+        0%{left:0px;}
+        @for $i from 1 through $num{
+            #{$i + '0%'}{left:-50px;}
+        }
+    }
+}
+
+label{
+    cursor:pointer;
+    user-select: none;
+}
+
+.prototype{
+    input{
+        // display:none;
+    }
+    .input-toggle:checked ~ div{
+        animation-play-state: paused;
+    }
+    div{
+        left:-50px;
+        position: absolute;
+        background-color:#faa;
+        width:50px;
+        height:50px;
+        animation:jump $animationTime steps(1) infinite;
+    }
+    @include createElement;
+}
+
+.reset, .toggle{
+    position: absolute;
+    left:100px;
+    top:100px;
+    font-size:20px;
+    background-color:#89d;
+    color:#fff;
+    padding:8px 16px;
+    border-radius: 6px;
+}
+.toggle{
+    background-color:#9d8;
+    top:50px;
+}
+
+@include createKeyFrames;
+// @keyframes jump{
+//     0%{background-color:#f58;}
+//     10%{background-color:#faa;}
+//     20%{background-color:#faa;}
+//     30%{background-color:#faa;}
+//     40%{background-color:#faa;}
+//     50%{background-color:#faa;}
+//     60%{background-color:#faa;}
+//     70%{background-color:#faa;}
+//     80%{background-color:#faa;}
+//     90%{background-color:#faa;}
+//     100%{background-color:#faa;}
+// }
+
+body{
+    background-color:#fff;
+}
+
+
+$bulgeColor:#416A34;
+$skinDrakest:#224411;
+$skinDark:#71A946;
+$skinLight:#BED553;
+.crocodile{
+    width:750px;
+    height:300px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left:-375px;
+    margin-top:-150px;
+    font-size:50px;
+    &:hover{
+        .eye-ball{
+            &:before{
+                top:0.4em!important;
+            }
+        }
+        .upperJaw{
+            transform:rotate(0) !important;
+        }
+        .tip{
+            &:before{
+                content:'catch you!（罒ω罒）';
+            }
+        }
+    }
+    .tip{
+        position:absolute;
+        width:100%;
+        left:0%;
+        top:-1.4em;
+        text-align: center;
+        &:before{
+            content:'touch me! (〃\'▽\'〃) I will not bite you, I promise';
+            color:#ccc;
+            font-size:24px;
+        }
+    }
+    .mouth{
+        left:-2em;
+        top:-1.6em;
+        z-index:1;
+        position: absolute;
+        .upperJaw{
+            z-index:2;
+            position: absolute;
+            width:6em;
+            height:1.4em;
+            background-color:$skinDark;
+            border-radius: 40% 0 0 5% / 100% 0 0 10%;
+            left:2.25em;
+            top:3.65em;
+            transform-origin: 100% 50%;
+            transform:rotate(20deg);
+            transition:transform 0.2s;
+            // animation:bite 5s infinite;
+            .nose{
+                background-color:$skinDark;
+                width:1.4em;
+                height:1.4em;
+                border-radius:50% 50% 50% 50% / 100% 100% 0 10%;
+                .hole{
+                    width:0.3em;
+                    height:0.4em;
+                    border-radius:50%;
+                    left:0.5em;
+                    top:0.3em;
+                    position: absolute;
+                    background-color:$skinDrakest;
+                }
+                .stripe1, .stripe2{
+                    position: absolute;
+                    border-radius:0 0 40% 40%;
+                }
+                .stripe1{
+                    border-right:0.2em solid $skinDrakest;
+                    border-bottom:0.6em solid $skinDrakest;
+                    border-top:0.02em solid transparent;
+                    left:1.8em;
+                    top:0em;
+                }
+                .stripe2{
+                    border-right:0.2em solid $skinDrakest;
+                    border-bottom:0.6em solid $skinDrakest;
+                    border-top:0.02em solid transparent;
+                    left:2.4em;
+                    top:0em;
+                }
+            }
+            .different{
+                position: absolute;
+                bottom:-1px;
+                width:6em;
+                height:0.3em;
+                background-color:#fff;
+                border-radius:0 100% 0 0;
+                mix-blend-mode: hard-light;
+            }
+            .teeth{
+                position: absolute;
+                bottom:-0.7em;
+                height:1em;
+                width:6em;
+                .tooth{
+                    transform-origin:50% 0%;
+                    position: absolute;
+                    overflow:hidden;
+                    width:0.9em;
+                    height:0.8em;
+                    &:before{
+                        content:'';
+                        position: absolute;
+                        display: block;
+                        width:0.9em;
+                        height:3em;
+                        top:-2.2em;
+                        border-radius:0 0 100% 100%;
+                        background-color:#ccc;
+                    }
+                }
+                .first{
+                    top:0.01em;
+                    left:0.3em;
+                }
+                .second{
+                    top:0.02em;
+                    left:1.4em;
+                }
+                .third{
+                    transform: rotate(2deg);
+                    top:0.05em;
+                    left:2.5em;
+                    &:before{
+                        top:-2.25em;
+                    }
+                }
+                .forth{
+                    transform: rotate(2deg);
+                    top:0.09em;
+                    left:3.6em;
+                    &:before{
+                        top:-2.3em;
+                    }
+                }
+            }
+        }
+        .lowerJaw{
+            z-index:1;
+            position: absolute;
+            width:5.8em;
+            height:1.4em;
+            background-color:$skinLight;
+            left:2.2em;
+            top:5em;
+            border-radius:0 0 0 10% / 0 0 0 50%;
+            .different{
+                width:5.8em;
+                height:1em;
+                background-color:#fff;
+                border-radius:0 0 100% 0;
+                mix-blend-mode: hard-light;
+            }
+            .teeth{
+                position: absolute;
+                left:0.3em;
+                bottom:0.2em;
+                height:1em;
+                width:6em;
+                z-index:10;
+                .tooth{
+                    z-index:10;
+                    mix-blend-mode: normal;
+                    transform-origin:50% 100%;
+                    position: absolute;
+                    overflow:hidden;
+                    width:0.9em;
+                    height:0.8em;
+                    &:before{
+                        content:'';
+                        position: absolute;
+                        display: block;
+                        width:0.9em;
+                        height:3em;
+                        bottom:-2.2em;
+                        border-radius:100% 100% 0 0;
+                        background-color:#ccc;
+                    }
+                }
+                .first{
+                    top:0em;
+                    left:0.6em;
+                    transform:rotate(-2deg);
+                }
+                .second{
+                    top:0.02em;
+                    left:1.7em;
+                    top:-0.06em;
+                    transform:rotate(-3deg);
+                    &:before{
+                        bottom:-2.25em;
+                    }
+                }
+                .third{
+                    transform:rotate(-8deg);
+                    top:-0.2em;
+                    left:2.8em;
+                    &:before{
+                        bottom:-2.4em;
+                    }
+                }
+                .forth{
+                    transform:rotate(-14deg);
+                    top:-0.41em;
+                    left:4em;
+                    &:before{
+                        bottom:-2.5em;
+                    }
+                }
+            }
+        }
+    }
+    .body{
+        z-index:2;
+        position: absolute;
+        left:6em;
+        top:2.6em;
+        width:6em;
+        height:2.2em;
+        background-color:$skinDark;
+        .body-eye{
+            z-index:3;
+            position: absolute;
+            width:2.2em;
+            height:1.6em;
+            transform-origin: 50% 50%;
+            transform:rotate(10deg);
+            background-color:$skinDark;
+            top:-1em;
+            border-radius:100%;
+            left:-0.7em;
+            .eye-ball{
+                position: absolute;
+                background-color:#fff;
+                width:1.2em;
+                height:1em;
+                border-radius: 120% 160% 160% 120%/ 150%;
+                left:0.5em;
+                top:0.4em;
+                &:before{
+                    content:'';
+                    display: block;
+                    position: absolute;
+                    width:0.5em;
+                    height:0.5em;
+                    background-color:#333;
+                    border-radius: 100%;
+                    left:0.2em;
+                    top:0.2em;
+                    transition:top 0.2s;
+                }
+            }
+        }
+        .body-decoration{
+            position: absolute;
+            top:0;
+            right:0;
+            width:100%;
+            height:2.5em;
+            top:-0.6em;
+            overflow:hidden;
+            div{
+                position: absolute;
+            }
+            .triangle{
+                width:1.5em;
+                height:4em;
+                border-radius: 100% 30% 0 0;
+                background-color:$skinDark;
+            }
+            .first{
+                border-radius:50% / 100% 100% 0 0;
+                background-color:$skinDark;
+                width:1.4em;
+                height:1em;
+                right:3.2em;
+            }
+            .second{
+                right:2.2em
+            }
+            .third{
+                right:1.15em;
+            }
+            .fourth{
+                right:0.1em;
+            }
+        }
+        .body-bottom{
+            z-index:2;
+            position: absolute;
+            bottom:0;
+            width:100%;
+            height:1.4em;
+            background-color:$skinLight;
+            .body-front-leg, .body-back-leg{
+                width:1.5em;
+                height:1.6em;
+                position: absolute;
+                left:1.2em;
+                top:0.4em;
+                background-color:$skinDark;
+                border-radius:50% 100% 50% 100% / 100% ;
+                transform:rotate(-20deg);
+                .body-foot{
+                    width:2em;
+                    height:0.6em;
+                    background-color:$skinDark;
+                    border-radius:100% 50% 50% 100%;
+                    position: absolute;
+                    top:1em;
+                    left:-0.6em;
+                    transform:rotate(14deg);
+                }
+            }
+            .body-back-leg{
+                height:1.4em;
+                top:0.5em;
+                left:4.6em;
+                .body-foot{
+                    top:0.8em;
+                }
+            }
+        }
+        .tail{
+            width:2.4em;
+            height:4.2em;
+            background-color: $skinLight;
+            right:-2.4em;
+            position: absolute;
+            bottom:0;
+            border-radius:0 3em 3em 0;
+            .dardPart{
+                width:1.8em;
+                height:2.8em;
+                background-color:$skinDark;
+                border-radius:0 2em 2em 0;
+                position: absolute;
+                top:0;
+            }
+            .different{
+                width:1.4em;
+                height:2em;
+                background-color:#fff;
+                border-radius:0 2em 2em 0;
+                mix-blend-mode: hard-light;
+            }
+        }
+    }
+}

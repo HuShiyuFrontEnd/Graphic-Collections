@@ -1,4 +1,4 @@
-import {THREE, GUI, Quick, RAFStackObj} from '../lib/base.js';
+import {GUI, Quick, RAFStackObj} from '../lib/base.js';
 
 let scene = new THREE.Scene();
 

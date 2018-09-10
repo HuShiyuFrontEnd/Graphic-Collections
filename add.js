@@ -58,11 +58,24 @@ try{
             console.log('style.scss创建成功')
         })
         break;
+        case 'doodle':
+        fs.writeFile(`${piecePath}/index.html`, '', (err) => {
+            if(err) throw err;
+            console.log('index.html创建成功')
+        })
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
+        fs.writeFile(`${piecePath}/style.scss`, '', (err) => {
+            if(err) throw err;
+            console.log('style.scss创建成功')
+        })
         default:break;
     }
 }catch(e){
+    console.log(e)
     console.log(chalk.red('该项目中，这个作品名似乎已经存在了'));
-    // console.log(e)
 }
 
 let machineRouterPath = './src/novue/machineRouter.js';
@@ -94,14 +107,20 @@ if(machineRouterOrigin[project].children.indexOf(piece) > -1){
         let content = '';
         for(let piece of machineRouterOrigin[p].children){
             switch(p){
-                case 'canvas':;break;
+                case 'canvas':
+                content += `"${piece}":{"main":() => import('@/components/canvas/${piece}/index.js')},`;
+                ;break;
                 case 'cssonly':
                 content += `"${piece}":{"main":() => import('@/components/cssonly/${piece}/index.js'),"dom":() => import('@/components/cssonly/${piece}/index.html'),"styles":[() => import('@/components/cssonly/${piece}/style.scss')]},`;
                 break;
                 case 'svg':
                 content += `"${piece}":{"main":() => import('@/components/svg/${piece}/index.js'),"dom":() => import('@/components/svg/${piece}/index.html'),"styles":[() => import('@/components/svg/${piece}/style.scss')]},`;
                 break;
+                case 'doodle':
+                content += `"${piece}":{"main":() => import('@/components/doodle/${piece}/index.js'),"dom":() => import('@/components/doodle/${piece}/index.html'),"styles":[() => import('@/components/doodle/${piece}/style.scss')]},`;
+                break;
                 default:break;
+                
             }
         }
         objectText += `"${p}":{"children":{${content}}},`;

@@ -1,6 +1,8 @@
-let three =  require('./three.js');
+import './three.js';
+import './OrbitControls.js';
 import datGUI from './dat.gui.js';
-import Stats from './stats.js'
+import Stats from './stats.js';
+
 
 //gui工具
 let gui = new datGUI();
@@ -120,14 +122,13 @@ rafStackObj.prototype.deactivate = function(){
 //导出模块
 export var RAFStackObj = rafStackObj;
 export var GUI = gui;
-export var THREE = three.THREE;
 export var Quick = {
     width:window.innerWidth,
     height:window.innerHeight,
     resizeFunc:null,
     createRenderer(setting){
-        let renderer = new three.THREE.WebGLRenderer(setting.base || {alpha:true, antialias:true});
-        renderer.setClearColor(setting.clearColor || new three.THREE.Color(0xffffff));
+        let renderer = new THREE.WebGLRenderer(setting.base || {alpha:true, antialias:true});
+        renderer.setClearColor(setting.clearColor || new THREE.Color(0xffffff));
         renderer.setSize(window.innerWidth, window.innerHeight);
         if(setting.shadowEnabled){
             renderer.shadowMap.enabled = true;

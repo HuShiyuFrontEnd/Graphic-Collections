@@ -5,8 +5,6 @@ const WebGLBaseDOM = () => import('@/components/webgl/lib/webglBase.html');
 const ThreeJSBaseJS = () => import('@/components/threejs/lib/base.js');
 const ThreeJSBaseDOM = () => import('@/components/threejs/lib/threejsBase.html');
 const ThreeJSBaseSCSS = WebGLBaseSCSS;
-const homeDOM = () => import('@/components/home/home.html');
-const homeSCSS = () => import('@/components/home/home.scss');
 
 //myscript
 //threejs
@@ -42,18 +40,14 @@ const elasticInputDOM = () => import('@/components/svg/elasticInput/index.html')
 //canvas
 const engineremake = () => import('@/components/canvas/engineremake/index.js');
 const bonerobot = () => import('@/components/canvas/bonerobot/index.js');
-
+ 
 //轻dom架构
 let router = {
-    //道是万般皆有意，独取五彩化虹毫
-    'home':{
-        dom:homeDOM,
-        styles:[homeSCSS],
-    },
     //开发平台
     //webgl主要基于对canvas的操作，95%以上的工作用js完成
     //九州明月造化内，锦鲤金龙河图中
     'webgl':{
+        peom:'九州明月造化内，锦鲤金龙河图中',
         dom:WebGLBaseDOM,
         styles:[WebGLBaseSCSS],
         children:{
@@ -84,6 +78,7 @@ let router = {
     //性能测试
     //巧取风雷化双翼，手执神兵当先锋
     'performance':{
+        peom:'巧取风雷化双翼，手执神兵当先锋',
         children:{
             'switch':{
                 main:performswitch
@@ -92,6 +87,7 @@ let router = {
     },
     //螣蛇乘雾吞巨象，遇雨化龙金鳞开
     'svg':{
+        peom:'螣蛇乘雾吞巨象，遇雨化龙金鳞开',
         children:{
             'elasticinput':{
                 dom:elasticInputDOM,
@@ -101,6 +97,7 @@ let router = {
     },
     //麻雀虽小五脏具，茅庐未出三国分
     'cssonly':{
+        peom:'麻雀虽小五脏具，茅庐未出三国分',
         children:{
             'slider':{
                 main:sliderItem,
@@ -121,6 +118,7 @@ let router = {
     },
     //天地无涯分四象，洪荒来去拓两仪
     'canvas':{
+        peom:'天地无涯分四象，洪荒来去拓两仪',
         dom:ThreeJSBaseDOM,
         styles:[ThreeJSBaseSCSS],
         children:{
@@ -134,10 +132,11 @@ let router = {
     },
     //落红本是无情物，化作春泥更护花
     'math':{
-
+        peom:'落红本是无情物，化作春泥更护花',
     },
     //两岸猿声啼不住，轻舟已过万重山
     'threejs':{
+        peom:'两岸猿声啼不住，轻舟已过万重山',
         dom:ThreeJSBaseDOM,
         styles:[ThreeJSBaseSCSS],
         children:{
@@ -157,13 +156,23 @@ let router = {
     },
     //笑领汉骑三千骏，直捣黄龙万里遥
     'free':{
-
+    },
+    //
+    'doodle':{
+        peom:'中二定场诗待定中。。。',
+        desc:'[核心技术栈]grid布局、自定义标签、自定义属性、css动画技术、shadowDOM、高级CSS选择器<br>[感受集群之美]doodle是一个基于grid布局+shadowDom的纹理绘制库，可以做出许多很炫酷的效果',
+        children:[]
     }
 };
 
 for(let p in machineRouter){
     for(let q in machineRouter[p]){
-        router[p][q] = machineRouter[p][q];
+        if(typeof machineRouter[p][q] == 'object'){
+            for(let r in machineRouter[p][q]){
+                router[p][q][r] = machineRouter[p][q][r];
+            }
+        }
+        else router[p][q] = machineRouter[p][q];
     }
 }
 
