@@ -13,6 +13,7 @@ let renderer = Quick.createRenderer({
 let axe = new THREE.AxesHelper(20);
 scene.add(axe);
 
+
 let BIRDS = 3;
 let BOUND = 200;
 let BOUND_HALF = BOUND / 2;
