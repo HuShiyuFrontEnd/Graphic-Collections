@@ -115,6 +115,10 @@ class rafStackObj{
         this.enabled = false;
         return this;
     }
+    destory(){
+        //后续再补上，暂时为暂停
+        this.deactivate();
+    }
 }
 
 export default rafStackObj;

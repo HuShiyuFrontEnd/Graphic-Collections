@@ -1,0 +1,64 @@
+<!---->
+<feFlood flood-color="#551C0B" result="COLOR-outline" />
+<!--该滤镜用于在边缘减去（erode）或者扩充（dilate），适用于加粗或细化的效果-->
+<!--作用于哪部分上in:<Enum> SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint | <filter-primitive-reference>  -->
+<!--operator:<Enum> erode | dilate -->
+<!--radius:<Number>  -->
+<feMorphology></feMorphology>
+<!--feMerge可以令几个滤镜同时产生作用而不是按照先后顺序，feMergeNode接受其他滤镜的result值作为输入值(in)-->
+<feMerge>
+    <feMergeNode in="blur2" />
+    <feMergeNode in="SourceGraphic" />
+</feMerge>
+<!--feComponentTransfer可以对图像进行数据重映射，进而做出例如亮度调整、对比度调整、色彩平衡或者阈值操作-->
+<feComponentTransfer>
+    <feFuncR type="identity"></feFuncR>
+    <feFuncG type="identity"></feFuncG>
+    <feFuncB type="identity"></feFuncB>
+    <feFuncA type="identity"></feFuncA>
+</feComponentTransfer>
+<!--高斯模糊-->
+<feGaussianBlur stdDeviation="4" in="SourceAlpha" result="LIGHTING-EFFECTS_10"/>
+<!--高光 specularConstant光照强度 specularExponent 在1.0 to 128.0之间-->
+<feSpecularLighting surfaceScale="5" specularConstant="0.8" specularExponent="7.5" lighting-color="#white" in="LIGHTING-EFFECTS_10" result="LIGHTING-EFFECTS_20">
+    <fePointLight x="-250" y="-50" z="300" />
+</feSpecularLighting>
+<!--混合两个输入值并生成一个输出值-->
+<feComposite operator="in" in="LIGHTING-EFFECTS_20" in2="SourceAlpha" result="LIGHTING-EFFECTS_30"/>
+<!--feTurbulence 利用Perlin噪点函数，实现了人造纹理，例如云朵、大理石-->
+<feTurbulence></feTurbulence>
+<!--feColorMatrix 神器啊，调通道值，饱和度-->
+<!--type = matrix 调rgba通道色值-->
+<feColorMatrix in="SourceGraphic"
+    type="matrix"
+    values="0 0 0 0 0
+            1 1 1 1 0
+            0 0 0 0 0
+            0 0 0 1 0" />
+</filter>
+<!--type = saturate 调饱和度值，values是一个值，等于-->
+<!-- |0.213+0.787s  0.715-0.715s  0.072-0.072s 0  0 |
+     |0.213-0.213s  0.715+0.285s  0.072-0.072s 0  0 |
+     |0.213-0.213s  0.715-0.715s  0.072+0.928s 0  0 |
+     |           0            0             0  1  0 |
+     |           0            0             0  0  1 |  -->
+<!--type = hueRotate 调色调 主要在调整rgb的rgb值-->
+<!-- 
+| a00 a01 a02 |    [+0.213 +0.715 +0.072]
+| a10 a11 a12 | =  [+0.213 +0.715 +0.072] +
+| a20 a21 a22 |    [+0.213 +0.715 +0.072]
+                        [+0.787 -0.715 -0.072]
+cos(hueRotate value) *  [-0.213 +0.285 -0.072] +
+                        [-0.213 -0.715 +0.928]
+                        [-0.213 -0.715+0.928]
+sin(hueRotate value) *  [+0.143 +0.140-0.283]
+                        [-0.787 +0.715+0.072] 
+-->
+<!--type = luminanceToAlpha 去色-->
+<!--
+| R' |     |      0        0        0  0  0 |   | R |
+| G' |     |      0        0        0  0  0 |   | G |
+| B' |  =  |      0        0        0  0  0 | * | B |
+| A' |     | 0.2125   0.7154   0.0721  0  0 |   | A |
+| 1  |     |      0        0        0  0  1 |   | 1 |
+-->

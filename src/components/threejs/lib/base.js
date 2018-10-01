@@ -146,7 +146,6 @@ export var Quick = {
         window.onresize = function(){
             that.width = window.innerWidth;
             that.height = window.innerHeight;
-            console.log(that.resizeFunc)
             if(that.resizeFunc)
                 that.resizeFunc(that.width, that.height);
         }

@@ -5,8 +5,8 @@ attribute vec3 birdColor;
 //attribute vec3 position;属于基础attribute所以被省略了
 attribute vec3 birdPosition;//这里先不用gpgpu
 attribute vec3 birdVelocity;//这里先不用gpgpu
+attribute float birdWing;
 
-uniform float birdWing;
 uniform int birds;
 
 uniform float time;
@@ -21,7 +21,8 @@ void main(){
     vec3 newPosition = position;
     if(birdVertex == 4.0 || birdVertex == 7.0){
         //flap wings
-        newPosition.y = sin(birdWing) * 5.0;
+        float value = birdWing * 1.0;
+        newPosition.y = sin(time * 0.005 + value) * 5.0 ;
     }
 
     newPosition = mat3(modelMatrix) * newPosition;//用模型自身的变化矩阵来计算

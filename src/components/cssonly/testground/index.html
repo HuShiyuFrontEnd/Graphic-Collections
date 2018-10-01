@@ -1,1 +1,15 @@
-<div class='test'></div>
+<svg width=0 height=0 xmlns="http://www.w3.org/2000/svg">
+    <defs> 
+      <filter id='test'>
+        <feImage id='image' xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/ripple.png" x="0" y="0" width="512" height="512" result="ripple"></feImage>
+        <feDisplacementMap in='SourceGraphic' in2='ripple' xChannelSelector='G' yChannelSelector='R' scale=0 id='scale' result='rippleValue'></feDisplacementMap>
+        <feImage id='image' xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/fix.jpg" x="0" y="0" width="512" height="512" result="fix"></feImage>
+        <feDisplacementMap in='rippleValue' in2='fix' xChannelSelector='G' yChannelSelector='R' scale=0 id='fix'></feDisplacementMap>
+        <feComposite operator="in" in2="ripple"></feComposite>
+        <feComposite in2="SourceGraphic"></feComposite>
+      </filter>
+    </defs>
+</svg>
+  
+<!-- <div class="text" contenteditable spellcheck="false">Broken</div> -->
+<div class='test' id='testDog'></div>

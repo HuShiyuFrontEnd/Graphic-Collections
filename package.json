@@ -18,6 +18,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.3.8",
     "es6-promise": "^4.2.4",
+    "gm": "^1.23.1",
     "html-loader": "^0.5.5",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",

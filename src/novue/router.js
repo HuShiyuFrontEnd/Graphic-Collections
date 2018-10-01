@@ -40,6 +40,7 @@ let Router = function(){
                     node.styles[j]();
                 }
                 break;
+            case 'canvas':
             case 'threejs':
                 useDom = node.dom;
                 for(let j = 0;node.styles && j < node.styles.length;j++){
