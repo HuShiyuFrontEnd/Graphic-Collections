@@ -1,0 +1,38 @@
+HTML, BODY {
+	height: 100%;
+}
+  
+BODY {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	// background: #000;
+	font: 23vw/1 Arial Black, sans-serif !important;
+	text-align: center;
+}
+  
+.text {
+	white-space: nowrap;
+	filter: url(#filter);
+	outline: none;
+	color: yellow;
+	
+	&::selection {
+	  background: rgba(255,255,255,.2);
+	}
+}
+  
+svg {
+	position: absolute;
+}
+
+.test{
+	width:256px;
+	height:256px;
+	position:fixed;
+	left:0;
+	top:0;
+	background-image:url('./test.jpg');
+	background-size:100% 100%;
+}

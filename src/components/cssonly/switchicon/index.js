@@ -1,0 +1,1 @@
+console.log("this is main js for piece - switchicon in project cssonly")

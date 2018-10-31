@@ -71,6 +71,26 @@ try{
             if(err) throw err;
             console.log('style.scss创建成功')
         })
+        break;
+        case 'gsap':
+        fs.writeFile(`${piecePath}/index.html`, '', (err) => {
+            if(err) throw err;
+            console.log('index.html创建成功')
+        })
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
+        fs.writeFile(`${piecePath}/style.scss`, '', (err) => {
+            if(err) throw err;
+            console.log('style.scss创建成功')
+        })
+        break;
+        case 'threejs':
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
         default:break;
     }
 }catch(e){
@@ -119,6 +139,12 @@ if(machineRouterOrigin[project].children.indexOf(piece) > -1){
                 case 'doodle':
                 content += `"${piece}":{"main":() => import('@/components/doodle/${piece}/index.js'),"dom":() => import('@/components/doodle/${piece}/index.html'),"styles":[() => import('@/components/doodle/${piece}/style.scss')]},`;
                 break;
+                case 'gsap':
+                content += `"${piece}":{"main":() => import('@/components/gsap/${piece}/index.js'),"dom":() => import('@/components/gsap/${piece}/index.html'),"styles":[() => import('@/components/gsap/${piece}/style.scss')]},`;
+                break;
+                case 'threejs':
+                content += `"${piece}":{"main":() => import('@/components/threejs/${piece}/index.js')},`;
+                ;break;
                 default:break;
                 
             }

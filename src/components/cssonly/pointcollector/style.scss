@@ -1,0 +1,74 @@
+body{
+    cursor:not-allowed;
+}
+canvas{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+input{
+    outline:none;
+    border:none;
+    box-shadow:none;
+    transition:all 0.2s;
+}
+input[type=button]{
+    padding:5px 10px;
+    background-color:#3af;
+    color:#fff;
+    border-radius:2px;
+}
+input[type=button]:hover{
+    background-color:#4bf;
+}
+input[type=text]{
+    padding:5px 10px;
+    border:1px solid #3af;
+    color:#3af;
+}
+input::-webkit-input-placeholder{
+    color:#3af;
+}
+img{
+    display:none;
+    border:1px solid #3af;
+    opacity:0;
+    transition:all 0.2s;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    cursor:auto;
+    &.show{
+        display:block;
+    }
+    &.visible{
+        opacity:1;
+    }
+}
+#uploader{
+    display:none;
+}
+#uploaderFace{
+    position: absolute;
+    left:20px;
+    top:20px;
+    cursor:pointer;
+}
+#branchName{
+    position: absolute;
+    left:123px;
+    top:20px;
+}
+#addBranch{
+    position: absolute;
+    left:300px;
+    top:20px;
+    cursor:pointer;
+}
+#output{
+    position: absolute;
+    left:353px;
+    top:20px;
+    cursor:pointer;
+}

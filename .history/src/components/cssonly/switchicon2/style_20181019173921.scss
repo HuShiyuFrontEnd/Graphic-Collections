@@ -1,0 +1,26 @@
+body{
+    padding: 0;
+    margin: 0;
+    background:#3F51B5;
+    background-image: linear-gradient(#257CCB 40%, #22CEC6);
+    text-align: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height:100%;
+}
+.theme{
+    color:#fff;
+    font-size:24px;
+    position: absolute;
+    left:50%;
+    top:10%;
+    transform:translate(-50%, -50%);
+}
+.container{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    font-size:30px;
+    text-align:center;
+}

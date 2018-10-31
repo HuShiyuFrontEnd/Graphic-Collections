@@ -1,0 +1,16 @@
+.bar{
+    width:20px;
+    height:300px;
+    margin:0 10px;
+    height:0px;
+    position: absolute;
+    bottom:300px;
+    div{
+        display:block;
+        background-color:#000000;
+        animation:height 1s linear;
+    }
+}
+@keyframes{
+    
+}

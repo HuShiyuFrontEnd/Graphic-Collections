@@ -1,64 +1,84 @@
-import {Easing, Tween} from '@/components/canvas/engineremake/core/tween.js';
+/*
+* FIXING A FIREFOX ONLY BROWSERBUG.
+* Because of an still unfixed bug, Firefox only can handle xlinks to SVG fragments as URL encoded DataURIs.
+* This script fixes this by finding and URLencoding all inline fragments within an SVG.
+*/
 
-window.onload = function(){
-    let pic = document.getElementById('image');
-    let scale = document.getElementById('scale');
-    let testDog = document.getElementById('testDog');
-    let offsetFix = document.getElementById('fix');
+(function(){
+	var ua = navigator.userAgent;
 
-    let picTween = new Tween('pic').
-    get(pic).
-    setMap((target, key, val) => {
-        target.setAttribute(key, val);
-    }).
-    getMap((target, key) => {
-        return target.getAttribute(key);
-    });
-    let scaleTween = new Tween('scale').
-    get(scale).
-    setMap((target, key, val) => {
-        target.setAttribute(key, val);
-    }).
-    getMap((target, key) => {
-        return target.getAttribute(key);
-    });;
-    let offsetFixTween = new Tween('x').
-    get(offsetFix).
-    setMap((target, key, val) => {
-        target.setAttribute(key, val);
-    }).
-    getMap((target, key) => {
-        return target.getAttribute(key);
-    });;
+	if(!/firefox/gi.test(ua)){return;}
+	// Browsersniffing. Yes, I'm lazy.
 
-    let animating = false;
-    testDog.onclick = (e) => {
-        testDog.style.filter = 'url(#test)';
-        // if(animating) return false;
-        // else animating= true;
-        picTween.
-        from({width:10, height:10, x:e.offsetX, y:e.offsetY}).
-        to({width:512, height:512, x:e.offsetX - 256, y:e.offsetY - 256}, 2000).
-        call(() => {
-            testDog.style.filter = '';
-        })
+	var fragmentID;
+	var feImgs = document.querySelectorAll("feImage");
+	var cssList = document.styleSheets;
+	var cssAnimations = {};
 
-        offsetFixTween.
-        from({scale:50}).
-        to({scale:0}, 2000)
+	for (var i = 0; i < cssList.length; i++){
+		var css = cssList[i];
 
-        scaleTween.
-        from({scale:50}).
-        to({scale:0}, 2000);
-    }
+		for (var j = 0; j < css.cssRules.length; j++){
+			var rule = css.cssRules[j];
 
-    // new Tween('test').
-    // get(document.getElementsByClassName('test')[0].style).
-    // map((target, key, val) => {
-    //     target[key] = `${val}px`;
-    // }).
-    // from({left:0, top:0}).
-    // to({left:100, top:100}, 100).
-    // call(() => {
-    // });
-}
+			//is rule a keyframe animation?
+			if (rule.type === 7){
+				cssAnimations[rule.name] = rule.cssText;
+			}
+		}
+	}
+			
+	for (var i=0, j=feImgs.length; i<j; i++) {
+		fragmentID = feImgs[i].getAttribute("xlink:href") || feImgs[i].getAttribute("xlink");
+
+		if(/#/.test(fragmentID) && !/data\:image\/svg\+xml/.test(fragmentID)){
+			fragmentAsURIintoFilter(fragmentID, feImgs[i]);
+		};
+	}
+
+	function fragmentAsURIintoFilter(identifier, fePrimitive){
+		var el = document.querySelector(identifier);
+		var styledEl = inlineStyles(el);
+		var nsAttr = "http://www.w3.org/2000/svg";
+		if ( !styledEl.getAttribute("xmlns" )){
+			styledEl.setAttribute("xmlns", nsAttr);
+		}
+        var text = encodeURIComponent(styledEl.outerHTML.replace(/100%/g, "256")).replace("\"", "\'");
+		var target = fePrimitive;
+
+		target.setAttribute("xlink:href", "data:image/svg+xml;charset=utf-8," + text);
+	}
+
+	// When URLencoded, global styles will no longer apply to the SVG Fragment. So we must inline every rule before:
+	function inlineStyles (element) {
+		var children = element.querySelectorAll("*");
+		var animations = [];
+
+		[].forEach.call(children, function(child){
+			var style = getComputedStyle(child);
+			child.cssText = style;
+
+			// Look for animations:
+			for (var i = 0; i < style.length; i++) {
+				var prop = style.item(i);
+				var rule = style.getPropertyValue(prop);
+
+				// is there a CSS keyframe animation applied to this element?
+				// Copy it to an inlined style.
+				if( /animation\-name/.test(prop) && rule !=="none") {
+					if(animations.toString().indexOf(rule) < 0) {
+						var svgStyle = document.createElement( 'style' );
+
+						svgStyle.innerHTML = cssAnimations[rule];
+						element.appendChild(svgStyle);
+						animations.push(rule);
+					}
+				}
+
+				child.style[prop] = rule;			
+			}
+		});
+
+		return element;
+	}
+})();

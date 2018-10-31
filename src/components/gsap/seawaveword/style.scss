@@ -1,0 +1,29 @@
+$wordLength:7;
+$color:#3af;
+
+@mixin waveGenerator{
+    @for $i from 0 through $wordLength {
+        div:nth-child(#{($i + 1)}){
+            color:$color * ($i + 3) / $wordLength;
+        }
+    }
+}
+
+.main{
+    font-size:60px;
+    width:10em;
+    height:2em;
+    line-height:2em;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -150%);
+    text-align:center;
+    div{
+        margin:0;
+        display:inline-block;
+        font-weight:bold;
+        font-family: 'Francois One', sans-serif;
+    }
+    @include waveGenerator;
+}

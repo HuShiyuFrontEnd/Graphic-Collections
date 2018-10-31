@@ -12,7 +12,7 @@ renderer.shadowMapType = THREE.PCFSoftShadowMap;
 Quick.bindRenderer(renderer);
 
 let axes = new THREE.AxisHelper(20);
-// scene.add(axes);
+scene.add(axes);
 
 let planeGeometry = new THREE.PlaneBufferGeometry(60, 40, 40, 40);
 let planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc, side:THREE.DoubleSide});
@@ -70,12 +70,12 @@ let vertices = [
     new THREE.Vector3(0, 8, 0),
 ];
 let faces = [
-    new THREE.Face3(0, 2, 1),
-    new THREE.Face3(0, 1, 3),
+    new THREE.Face3(0, 1, 2),
+    new THREE.Face3(0, 3, 1),
     new THREE.Face3(0, 4, 3),
     new THREE.Face3(0, 2, 4),
-    new THREE.Face3(5, 1, 2),
-    new THREE.Face3(5, 3, 1),
+    new THREE.Face3(5, 2, 1),
+    new THREE.Face3(5, 1, 3),
     new THREE.Face3(5, 3, 4),
     new THREE.Face3(5, 4, 2),
 ]
@@ -89,16 +89,16 @@ let meshs = [];
 for(let i = 0, j = 0, length = geoms.length;i < length;i++){
     let materials = [
         new THREE.MeshLambertMaterial({color:Math.random() * 0xffffff, shading:THREE.FlatShading, opacity: 0.6, transparent: true}),
-        // new THREE.MeshBasicMaterial({color:0xeeeeee, wireframe: true })
+        new THREE.MeshBasicMaterial({color:0xeeeeee, wireframe: true })
     ]
     let mesh = THREE.SceneUtils.createMultiMaterialObject(geoms[i], materials);
     mesh.traverse(function(e){
         e.castShadow = true;
     });
 
-    mesh.position.x = -24 + (i % 4) * 12;
+    mesh.position.x = 0//-24 + (i % 4) * 12;
     mesh.position.y = 4;
-    mesh.position.z = -8 + j * 12;
+    mesh.position.z = 0//-8 + j * 12;
 
     if((i + 1) % 4 == 0) j++;
     meshs.push(mesh);
@@ -109,15 +109,19 @@ let ambientLight = new THREE.AmbientLight(0x0c0c0c);
 scene.add(ambientLight);
 
 let spotLight = new THREE.SpotLight(0xffffff);
-spotLight.position.set(-50, 50, -50);
-spotLight.penumbra = 0;
+spotLight.position.set(-40, 40, 50);
 spotLight.castShadow = true;
 scene.add(spotLight);
 
 
 let camera = new THREE.PerspectiveCamera(45, Quick.width/Quick.height, 0.1, 1000);
-camera.position.set(-30, 15, -25);
+camera.position.set(20, 15, 15);
 camera.lookAt(meshs[0].position);
+
+let control=new THREE.OrbitControls(camera, renderer.domElement);
+control.maxPolarAngle = Math.PI * 0.5;
+control.minDistance = 1;
+control.maxDistance = 10000;
 
 function render(){
     renderer.render(scene, camera);

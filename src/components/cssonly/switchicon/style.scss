@@ -1,0 +1,154 @@
+body{
+    padding: 0;
+    margin: 0;
+    background:#3F51B5;
+    background-image: linear-gradient(#257CCB 40%, #22CEC6);
+    text-align: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height:100%;
+}
+.theme{
+    color:#fff;
+    font-size:24px;
+    position: absolute;
+    left:50%;
+    top:10%;
+    transform:translate(-50%, -50%);
+}
+.container{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    font-size:30px;
+    text-align:center;
+    input{
+        display:none;
+    }
+    label{
+        width:100%;
+        height:100%;
+        z-index:100;
+        position: relative;
+        display:block;
+        cursor:pointer;
+    }
+    .item{
+        position: relative;
+        width:2em;
+        height:2em;
+        margin:0 0.2em;
+        display:inline-block;
+    }
+    .forkAdd{
+        div{
+            background-color:#fff;
+            transition:all 0.3s cubic-bezier(0.3, -0.51, 0.72, 1.68);
+        }
+        .forkOne, .forkTwo, .addOne, .addTwo{
+            width:1em;
+            height:4px;
+            border-radius:2px;
+            box-shadow:1px 1px 1px rgba(0, 0, 0, 0.2);
+            left:50%;
+            top:50%;
+            position: absolute;
+            transform:translate(-50%, -50%);
+        }
+        input:checked ~ div.addOne, input:checked ~ div.addTwo{
+            width:0;
+        }
+        input:checked ~ div.forkOne, input:checked ~ div.forkTwo{
+            width:1.2em;
+        }
+        .addOne{
+            transform:translate(-50%, -50%);
+        }
+        .addTwo{
+            transform-origin:50% 50%;
+            transform:translate(-50%, -50%) rotate(90deg);
+        }
+        .forkOne{
+            width:0;
+            transform-origin:50% 50%;
+            transform:translate(-50%, -50%) rotate(-45deg);
+        }
+        .forkTwo{
+            width:0;
+            transform-origin:50% 50%;
+            transform:translate(-50%, -50%) rotate(45deg);
+        }
+    }
+    .UpDown{
+        input:checked ~ div.UpLeft, input:checked ~ div.UpRight{
+            div{
+                width:0;
+            }
+        }
+        input:checked ~ div.DownLeft, input:checked ~ div.DownRight{
+            div{
+                width:100%;
+            }
+        }
+        input:checked ~ div.UpLeft{
+            transform:translate(0, 0%) rotate(-40deg);
+        }
+        input:checked ~ div.UpRight{
+            transform:translate(0, 0%) rotate(40deg);
+        }
+        input:checked ~ div.DownLeft{
+            transform:translate(0, 100%) rotate(40deg);
+        }
+        input:checked ~ div.DownRight{
+            transform:translate(0, 100%) rotate(-40deg);
+        }
+        .UpLeft, .UpRight, .DownLeft, .DownRight{
+            width: 0.7em;
+            height:4px;
+            left:50%;
+            top:50%;
+            position: absolute;
+            transform:translate(-50%, -50%);
+            transition:all 0.3s cubic-bezier(0.3, -0.51, 0.72, 1.68);
+        }
+        .UpLeft > div, .UpRight > div, .DownLeft > div, .DownRight > div{
+            border-radius:2px;
+            box-shadow:1px 1px 1px rgba(0, 0, 0, 0.2);
+            width:100%;
+            height:100%;
+            background-color:#fff;
+            transition:all 0.3s cubic-bezier(0.3, -0.51, 0.72, 1.68);
+        }
+        .UpLeft{
+            left:20%;
+            transform-origin:100% 50%;
+            transform:translate(0, -200%) rotate(-40deg);
+            div{
+                float:right;
+            }
+        }
+        .UpRight{
+            right:20%;
+            transform-origin:0% 50%;
+            transform:translate(0, -200%) rotate(40deg);
+        }
+        .DownLeft{
+            left:20%;
+            transform-origin:100% 50%;
+            transform:translate(0, -100%) rotate(40deg);
+            div{
+                float:right;
+                width:0%;
+            }
+        }
+        .DownRight{
+            right:20%;
+            transform-origin:0% 50%;
+            transform:translate(0, -100%) rotate(-40deg);
+            div{
+                width:0%;
+            }
+        }
+    }
+}

@@ -88,6 +88,7 @@ let router = {
     //螣蛇乘雾吞巨象，遇雨化龙金鳞开
     'svg':{
         peom:'螣蛇乘雾吞巨象，遇雨化龙金鳞开',
+        desc:'svg技术，即Scalable Vector Graphics(可缩放矢量图形),相比起css、canvas等技术，技术栈的深度处于中等<br>核心优势：处理以路径为核心的动画时有显著优势，与html还有css可以耦合使用，可由ui用AI软件出直接可以写交互的svg标签（但需要开发粗加工一下），另外还有十分强大的滤镜功能（功能强于css、canvas，弱于webgl用户shader，但是开发难度亦低于webgl用户shader）',
         children:{
             'elasticinput':{
                 dom:elasticInputDOM,
@@ -159,8 +160,13 @@ let router = {
     },
     //
     'doodle':{
-        peom:'中二定场诗待定中。。。',
+        peom:'定场诗酝酿中...',
         desc:'[核心技术栈]grid布局、自定义标签、自定义属性、css动画技术、shadowDOM、高级CSS选择器<br>[感受集群之美]doodle是一个基于grid布局+shadowDom的纹理绘制库，可以做出许多很炫酷的效果',
+        children:[]
+    },
+    'gsap':{
+        peom:'定场诗酝酿中...',
+        desc:'全名Grees Sock Animation Platform，是一系列html动画开发标准组件的合集',
         children:[]
     }
 };
