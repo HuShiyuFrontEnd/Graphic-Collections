@@ -10,7 +10,6 @@ let gui = new GUI();
 let program = GL.createProgramByScript([vertex, fragment]);
 GL.useProgram(program);
 
-
 let Fwidth = 150;
 let Fheight = 250;
 let Fbar = 40;

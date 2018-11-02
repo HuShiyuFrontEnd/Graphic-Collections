@@ -33,6 +33,7 @@ export default {
     _canvas:$canvas,
     _width:_width,
     _height:_height,
+    _isWebGL2:false,
     //options:
     // alpha: _alpha,
     // depth: _depth,
@@ -42,10 +43,11 @@ export default {
     // preserveDrawingBuffer: _preserveDrawingBuffer,
     init(options){
         if(!options) var options = {};
-        gl = this._canvas.getContext('webgl', options) || this._canvas.getContext('experimental-webgl', options);
-        if(!gl){
-            console.log('没有对webgl的支持')
-        }else{
+        gl = this._canvas.getContext('webgl2', options);
+        if(!gl) gl = this._canvas.getContext('webgl', options) || this._canvas.getContext('experimental-webgl', options);
+        else this._isWebGL2 = true;
+        if(!gl) console.log('没有对webgl的支持')
+        else{
             window.gl = gl;
             defaultShaderType = [gl.VERTEX_SHADER,gl.FRAGMENT_SHADER];
             resize();

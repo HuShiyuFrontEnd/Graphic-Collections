@@ -1,0 +1,403 @@
+// ------------------ RESET ------------------
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+html, body{ border:0; font-size:16px; line-height:1.5; margin:0; padding:0 }
+a img{ border:0 }
+// ------------------ FONT-FACE ------------------
+@import url('https://fonts.googleapis.com/css?family=Neuton:200,400');
+// ------------------ STYLES ------------------
+#hero {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	padding: 50px;
+	background: #1d1d1d;
+	overflow: hidden;
+
+	#carousel:hover #bg .inner .shield {
+		transition: fill 0.2s linear;
+	}
+	
+	&.stark {
+		$shield: 	#fdf6d6;
+		$shieldH: 	#fff;
+		$txt1: 		#7e817f;
+		$txt1H: 	#60aca8;
+		$txt2: 		#040707;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 110%;}
+		#carousel .item .inner .img svg  	{top: 0;}
+	}
+	
+	&.lannister {
+		$shield: 	#a01830;
+		$shieldH: 	#9f001c;
+		$txt1: 		#f7e26a;
+		$txt1H: 	#ffc13c;
+		$txt2: 		#ffffff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 73%;}
+		#carousel .item .inner .img svg  	{top: -20%;}
+	}
+	
+	&.greyjoy {
+		$shield: 	#101006;
+		$shieldH: 	#1b2225;
+		$txt1: 		#f8d63c;
+		$txt1H: 	#fffa72;
+		$txt2: 		#ffffff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 100%;}
+		#carousel .item .inner .img svg  	{top: -10%;}
+	}
+	
+	&.targaryen {
+		$shield: 	#11120b;
+		$shieldH: 	#261a1a;
+		$txt1: 		#9f1c2e;
+		$txt1H: 	#ff0018;
+		$txt2: 		#fff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 85%;}
+		#carousel .item .inner .img svg  	{top: -10%;}
+	}
+	
+	&.tyrell {
+		$shield: 	#9bb693;
+		$shieldH: 	#5f8853;
+		$txt1: 		#fbd343;
+		$txt1H: 	#c7e82d;
+		$txt2: 		#040707;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 85%;}
+		#carousel .item .inner .img svg  	{top: -10%;}
+	}
+	
+	&.tully {
+		$shield: 	#002b4b;
+		$shieldH: 	#00376a;
+		$txt1: 		#821528;
+		$txt1H: 	#9e0722;
+		$txt2: 		#fff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 110%;}
+		#carousel .item .inner .img svg  	{top: 15%;}
+	}
+	
+	&.martell {
+		$shield: 	#f38c01;
+		$shieldH: 	#f8bd1f;
+		$txt1: 		#872921;
+		$txt1H: 	#a13506;
+		$txt2: 		#fff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 83%;}
+		#carousel .item .inner .img svg  	{top: -8%;}
+	}
+	
+	&.arryn {
+		$shield: 	#002b4b;
+		$shieldH: 	#004461;
+		$txt1: 		#fbf4c8;
+		$txt1H: 	#fff;
+		$txt2: 		#fff;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 82%;}
+		#carousel .item .inner .img svg  	{top: -7%;}
+	}
+	
+	&.baratheon {
+		$shield: 	#fcb600;
+		$shieldH: 	#ffce23;
+		$txt1: 		#5a4032;
+		$txt1H: 	#7e5805;
+		$txt2: 		#100a09;
+		
+		#carousel #bg .inner .shield 		{fill: $shield;}
+		#carousel:hover #bg .inner .shield {fill: $shieldH;}
+		#carousel .item .line-1 			{color: $txt1;}
+		#carousel:hover .item .line-1 		{color: $txt1H;}
+		#carousel .item .line-2 			{color: $txt2;}
+		#carousel .item .inner .img	  	{width: 73%;}
+		#carousel .item .inner .img svg  	{top: -20%;}
+	}
+
+	#carousel-nav {
+		position: absolute;
+		z-index: 2;
+		left: 50%;
+		bottom: 50px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		transform: translateX(-50%);
+		
+		button {
+			display: block;
+			width: 60px;
+			margin: 0 15px;
+			padding: 0;
+			background: none;
+			border-radius: 50%;
+			border: none;
+			cursor: pointer;
+			opacity: 0.2;
+			transition: opacity 0.2s linear;
+			
+			&:hover {
+				opacity: 0.6;
+			}
+
+			&.active {
+				opacity: 1;
+			}
+		}
+
+		@media screen and (max-height: 800px){
+			left: auto;
+			right: 20px;
+			top: 50%;
+			bottom: auto;
+			flex-direction: column;
+			flex-wrap: wrap;
+			align-content: end;
+			width: auto;
+			height: 100%;
+			transform: translate(0, -50%);
+			
+			button {
+        width: 30px;
+				margin: 10px;
+			}
+		}
+	}
+
+	#carousel-wp {
+		position: absolute;
+		z-index: 0;
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+
+		img {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			min-width: 100%;
+			min-height: 100%;
+			display: block;
+			opacity: 0;
+			transition: opacity 0.6s linear;
+			
+			&.active {
+				opacity: 1;
+				transition: opacity 0.8s linear 0.2s;
+			}
+		}
+	}
+	
+	#carousel {
+		position: relative;
+		z-index: 1;
+		display: block;
+		width: 60vh;
+		max-width: 400px;
+		margin-top: 10vh;
+		perspective: 1000px;
+		transform-style: preserve-3d;
+		
+		&:before {
+			content: "";
+			display: block;
+			padding-top: 130%;
+		}
+		
+		#bg {
+			position: absolute;
+			z-index: 1;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 100%;
+			height: 100%;
+			transform-style: preserve-3d;
+			
+			.inner {
+				width: 100%;
+				height: 100%;
+				transform: translateZ(0);
+				transform-style: preserve-3d;
+				
+				.shield {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					display: block;
+					width: 100%;
+					fill: #666;
+					transform: translateX(-50%) translateY(-50%);
+					transition: fill 0.8s linear;
+				}
+				
+				.shield-shadow {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					display: block;
+					width: 100%;
+					border-radius: 50%;
+					opacity: 0.5;
+					filter: blur(40px);
+					transform: translateX(-50%) translateY(-50%) translateZ(-300px) scale(1.2);
+				}
+
+				&.reset {
+					transform: rotateX(0) rotateY(0) !important;
+					transition: transform 1s ease-out 0.4s;
+				}
+			}
+		}
+
+		.item {
+			position: absolute;
+			z-index: 2;
+			left: 50%;
+			top: 50%;
+			display: block;
+			width: 100%;
+			height: 100%;
+			transform: translate(-50%, -50%);
+			transform-style: preserve-3d;
+			text-decoration: none;
+			
+			&.hidden {
+				opacity: 0;
+				visibility: hidden;
+			}
+
+			.inner {
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: center;
+				width: 100%;
+				height: 100%;
+				transform: translateZ(0);
+				transform-style: preserve-3d;
+
+				&.reset {
+					transform: rotateX(0) rotateY(0) !important;
+					transition: transform 1s ease-out 0.4s;
+				}
+
+				.img {
+					position: relative;
+					width: 100%;
+					height: 63%;
+					transform-style: preserve-3d;
+
+					svg {
+						position: absolute;
+						left: 0;
+						top: 0;
+						display: block;
+						width: 100%;
+						
+						&.blazon {
+							transform: translateZ(80px);
+						}
+
+						&.blazon-shadow {
+							opacity: 0.1;
+							transform: translateZ(0px) scale(1.1);
+						}
+					}
+				}
+
+				.txt {
+					display: block;
+					transform-style: preserve-3d;
+					transform: translateZ(50px);
+					text-align: center;
+					font-family: "Neuton", sans-serif;
+					font-size: 80px;
+					font-size: 10vh;
+					text-transform: uppercase;
+					line-height: 1;
+					color: #32325D;
+					white-space: nowrap;
+					transition: transform 0.3s ease-out;
+
+					span {
+						display: block;
+						
+						&.line-1 {
+							font-weight: 200;
+							transition: color 0.4s linear;
+						}
+						
+						&.line-2 {
+							transform: translateZ(-20px);
+							font-size: 0.5em;
+							font-weight: 400;
+						}
+					}
+				}
+			}
+
+			&:hover {
+				.txt {
+					transform: translateY(-30%) translateZ(120px);
+					transition: transform 0.4s ease-out;
+				}
+			}
+		}
+	}
+}

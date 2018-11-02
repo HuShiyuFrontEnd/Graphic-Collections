@@ -91,6 +91,11 @@ try{
             if(err) throw err;
             console.log('index.js创建成功')
         })
+        case 'webgl':
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
         default:break;
     }
 }catch(e){
@@ -144,6 +149,9 @@ if(machineRouterOrigin[project].children.indexOf(piece) > -1){
                 break;
                 case 'threejs':
                 content += `"${piece}":{"main":() => import('@/components/threejs/${piece}/index.js')},`;
+                ;break;
+                case 'webgl':
+                content += `"${piece}":{"main":() => import('@/components/webgl/${piece}/index.js')},`;
                 ;break;
                 default:break;
                 

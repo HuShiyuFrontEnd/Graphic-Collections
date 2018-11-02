@@ -51,6 +51,16 @@ let Router = function(){
                     node.styles[j]();
                 }
                 break;
+            case 'webgl':
+                useDom = node.dom;
+                for(let j = 0;node.styles && j < node.styles.length;j++){
+                    node.styles[j]();
+                }
+                node = node.children[path[1]];
+                for(let j = 0;node.styles && j < node.styles.length;j++){
+                    node.styles[j]();
+                }
+                break;
             default:{
                 for(let i = 0;i < path.length;i++){
                     if(path[i - (-1)])
