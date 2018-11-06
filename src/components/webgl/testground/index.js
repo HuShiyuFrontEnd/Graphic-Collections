@@ -15,7 +15,7 @@ if (GL._isWebGL2) {
     halfFloatLinear = gl.getExtension('OES_texture_float_linear');
 }
 
-let TEXTURE_DOWNSAMPLE = 1; 
+let TEXTURE_DOWNSAMPLE = 1; //设定贴图尺寸右移的位数
 let DENSITY_DISSIPATION = 0.98; //密度（？浓度）扩散
 let VELOCITY_DISSIPATION = 0.99; //速度扩散
 let SPLAT_RADIUS = 0.005; //劈裂半径？
@@ -271,5 +271,123 @@ let gradientSubtractFS = GL.createFragmentShader(`
 let blit = function(){
     GL.createBuffer();
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, new Float32Array([0, 1, 2, 0, 1, 3]), gl.STATIC_DRAW);
+    //这边感觉在默认认定顶点着色器属性的position为0（即开辟的这个buffer的最开始位置），当然这样也就是这有一个属性，所以也不需要关心属性名
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(0);
+
+    //这个destination是一个frame buffer object
+    return function(destination){
+        gl.bindFrameBuffer(gl.FRAMEBUFFER, destination); //相当于将后面的gl的绘制对象改掉了
+        //mode, count, type, offset
+        gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+    }
+}
+
+function clear(target){
+    gl.bindFrameBuffer(gl.FRAMEBUFFER, target);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+}
+
+function createFBO(texId, w, h, internalFormat, format, type, param){
+    //激活纹理单元，一般的浏览器环境，会有4/8/16个纹理单元，对应会有查询方法
+    //将其设定为当前纹理
+    gl.activeTexture(gl.TEXTURE0 + texId);
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    //设置纹理的缩放、延展策略
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    //target / level(0) /internaformat(gl.RGBA) / width / height / border / format / type / ArrayBufferView?pixels
+    //这个方法初始化了一张贴图
+    gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
+
+    var fbo = gl.createFramebuffer();
+    gl.bindFrameBuffer(gl.FRAMEBUFFER, fbo);
+    //target / attachment / texTarget / texture / level
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+    gl.viewport(0, 0, w, h);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    return [texture, fbo, texId];
+}
+
+//两个fbo，猜测是用来对图像进行多次处理的
+function createDoubleFBO(texId, w, h, internalFormat, format, type, param) {
+    var fbo1 = createFBO(texId, w, h, internalFormat, format, type, param);
+    var fbo2 = createFBO(texId + 1, w, h, internalFormat, format, type, param);
+
+    return {
+        get first() {
+            return fbo1;
+        },
+        get second() {
+            return fbo2;
+        },
+        swap: function swap() {
+            var temp = fbo1;
+            fbo1 = fbo2;
+            fbo2 = temp;
+        }
+    };
+}
+
+//贴图尺寸
+var textureWidth = undefined;
+var textureHeight = undefined;
+//密度
+var density = undefined;
+//速度
+var velocity = undefined;
+//离散
+var divergence = undefined;
+//涡度
+var curl = undefined;
+//压力
+var pressure = undefined;
+
+function initFrameBuffer(){
+    //drawingBufferWidth property represents the actual width of the current drawing buffer
+    //as canvas's width and height
+    textureWidth = gl.drawingBufferWidth >> TEXTURE_DOWNSAMPLE;
+    textureHeight = gl.drawingBufferHeight >> TEXTURE_DOWNSAMPLE;
+    
+    var internalFormat = isWebGL2 ? gl.RGBA16F : gl.RGBA;
+    var internalFormatRG = isWebGL2 ? gl.RG16F : gl.RGBA;
+    var formatRG = isWebGL2 ? gl.RG : gl.RGBA;
+    var texType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+
+    density = createDoubleFBO(0, textureWidth, textureHeight, internalFormat, gl.RGBA, texType, halfFloatLinear ? gl.LINEAR : gl.NEAREST);
+    velocity = createDoubleFBO(2, textureWidth, textureHeight, internalFormatRG, formatRG, texType, support_linear_float ? gl.LINEAR : gl.NEAREST);
+    divergence = createFBO(4, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
+    curl = createFBO(5, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
+    pressure = createDoubleFBO(6, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
+}
+
+//准备好计算用的fbo
+initFramebuffers();
+
+//准备好对应的program
+var displayProgram = new GLProgram(baseVS, displayFV);
+var splatProgram = new GLProgram(baseVS, splatFS);
+var advectionProgram = new GLProgram(baseVS, support_linear_float ? advectionFS : advectionManualFS);
+var divergenceProgram = new GLProgram(baseVS, divergenceShader);
+var curlProgram = new GLProgram(baseVS, curlShader);
+var vorticityProgram = new GLProgram(baseVS, vorticityShader);
+var pressureProgram = new GLProgram(baseVS, pressureShader);
+var gradienSubtractProgram = new GLProgram(baseVS, gradientSubtractShader);
+
+function pointerPrototype() {
+    this.id = -1;
+    this.x = 0;
+    this.y = 0;
+    this.dx = 0;
+    this.dy = 0;
+    this.down = false;
+    this.moved = false;
+    this.color = [30, 0, 300];
 }
