@@ -1,6 +1,7 @@
 console.log("this is main js for piece - testground in project webgl")
 
 import { GL , Program } from '@/components/webgl/lib/initGL.1.1.js';
+// import { Update } from '../../canvas/engineremake/core/core';
 
 //初始化
 let gl = GL.init({alpha: false, depth: false, stencil: false, antialias: true});
@@ -81,7 +82,7 @@ let splatFS = GL.createFragmentShader(`
 `);
 
 //流体（用手操控）
-let advectionManualFS = GL.createFragmentShader(`
+let advectionManualFilterFS = GL.createFragmentShader(`
     precision highp float;
     precision mediump sampler2D;
 
@@ -345,7 +346,7 @@ var density = undefined;
 var velocity = undefined;
 //离散
 var divergence = undefined;
-//涡度
+//螺旋卷曲
 var curl = undefined;
 //压力
 var pressure = undefined;
@@ -362,7 +363,7 @@ function initFrameBuffer(){
     var texType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
 
     density = createDoubleFBO(0, textureWidth, textureHeight, internalFormat, gl.RGBA, texType, halfFloatLinear ? gl.LINEAR : gl.NEAREST);
-    velocity = createDoubleFBO(2, textureWidth, textureHeight, internalFormatRG, formatRG, texType, support_linear_float ? gl.LINEAR : gl.NEAREST);
+    velocity = createDoubleFBO(2, textureWidth, textureHeight, internalFormatRG, formatRG, texType, halfFloatLinear ? gl.LINEAR : gl.NEAREST);
     divergence = createFBO(4, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
     curl = createFBO(5, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
     pressure = createDoubleFBO(6, textureWidth, textureHeight, internalFormatRG, formatRG, texType, gl.NEAREST);
@@ -374,12 +375,12 @@ initFramebuffers();
 //准备好对应的program
 var displayProgram = new GLProgram(baseVS, displayFV);
 var splatProgram = new GLProgram(baseVS, splatFS);
-var advectionProgram = new GLProgram(baseVS, support_linear_float ? advectionFS : advectionManualFS);
-var divergenceProgram = new GLProgram(baseVS, divergenceShader);
-var curlProgram = new GLProgram(baseVS, curlShader);
-var vorticityProgram = new GLProgram(baseVS, vorticityShader);
-var pressureProgram = new GLProgram(baseVS, pressureShader);
-var gradienSubtractProgram = new GLProgram(baseVS, gradientSubtractShader);
+var advectionProgram = new GLProgram(baseVS, halfFloatLinear ? advectionFS : advectionManualFilterFS);
+var divergenceProgram = new GLProgram(baseVS, divergenceFS);
+var curlProgram = new GLProgram(baseVS, curlFS);
+var vorticityProgram = new GLProgram(baseVS, vorticityFS);
+var pressureProgram = new GLProgram(baseVS, pressureFS);
+var gradienSubtractProgram = new GLProgram(baseVS, gradientSubtractFS);
 
 function pointerPrototype() {
     this.id = -1;
@@ -390,4 +391,35 @@ function pointerPrototype() {
     this.down = false;
     this.moved = false;
     this.color = [30, 0, 300];
+}
+
+let pointers = [];
+pointers.push(new pointerPrototype);
+
+function splat(x, y, dx, dy, color){
+    splatProgram.use();
+    //为啥sampler2D给一个贴图索引?采样器应该使用的纹理单元的索引作为参数
+    gl.uniform1i(splatProgram.uniforms.uTarget, velocity.first[2]);
+    gl.uniform1f(splatProgram.uniforms.aspectRatio, GL._canvas.width, GL._canvas.height);
+    gl.uniform2f(splatProgram.uniforms.point, x / GL._canvas.width, 1.0 - y / GL._canvas.height);
+    gl.uniform3f(splatProgram.uniforms.color);
+    gl.uniform1f(splatProgram.uniforms.radius);
+}
+
+//
+for(let i = 0; i < 1; i++){
+    //生成一个随机的rgb颜色值
+    let color = [Math.random() * 10, Math.random() * 10, Math.random() * 10];
+    let x = GL._canvas.width * Math.random();
+    let y = GL._canvas.heihgt * Math.random();
+    let dx = 1000 * (Math.random() - 0.5);
+    let dy = 1000 * (Math.random() - 0.5);
+    splat(x, y, dx, dy, color);
+}
+
+let lastTime = Date.now();
+Update();
+
+function Update(){
+
 }

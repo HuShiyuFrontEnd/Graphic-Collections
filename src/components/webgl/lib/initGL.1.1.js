@@ -336,7 +336,7 @@ function Program(vertexShader, fragmentShader){
     }
 }
 
-Program.prototype.bind = function(){
+Program.prototype.use = function(){
     gl.useProgram(this.program);
 }
 
