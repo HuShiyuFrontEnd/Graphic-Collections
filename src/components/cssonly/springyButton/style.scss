@@ -1,0 +1,166 @@
+$light: #fbfbfe;
+$primary: #234549;
+$alignment: translate3d(-50%, -50%, 0);
+$red: #FF4B47;
+$green: #40E64F;
+$yellow: #E0C93B;
+$orange: #F58F39;
+$holdTime: 8s;
+$base-duration: 4s;
+
+@function ring-animation-duration($base, $expansion){
+  @return $base + ($expansion * .6);
+}
+html {
+  //font-size: 62.5%;
+  font-size:14px !important;
+}
+body {
+  background: $primary;
+  color: $primary;
+  font-family: 'AvenirNext-UltraLight', 'Helvetica Light', 'Helvetica Neue', sans-serif;
+  margin: 0 auto;
+  text-align: center;
+  user-select: none;
+  overflow: hidden;
+}
+
+h2, h3 {
+    box-sizing:content-box;
+  color: $light;
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
+  font-size: 1.4rem;
+  border: .5rem solid $light;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  z-index: 100;
+  top: 8rem;
+  left: 2rem;
+  display: none;
+  touch-action: none;
+
+  &.animate {
+    animation: spring-translate .8s 0s 1 linear forwards;
+  }
+  
+  @media all and (min-height: 20em) {
+    left: 20%;
+  }
+}
+h3 {
+  top: 2rem;
+  display: block;
+  
+  @media all and (min-height: 30em) {
+    top: 25%;
+  }
+}
+
+section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  height: 20rem;
+  width: 20rem;
+  transform: translate3d(-50%, -50%, 0);
+  //transition: transform 8s ease-out;
+  backface-visibility: hidden;
+  perspective: 1200;
+  touch-action: none;
+  
+  &.hold {
+    animation-name: addHoldTension;
+    animation-duration: $holdTime;
+    animation-delay: 0;
+    animation-iteration-count: 1;
+    animation-timing-function: cubic-bezier(0,.99,.16,.99);
+    animation-fill-mode: forwards;
+    
+    div, p, span, b {
+      animation-name: addHoldTension;
+      animation-duration: $holdTime;
+      animation-delay: 0;
+      animation-iteration-count: 1;
+      animation-timing-function: cubic-bezier(0,.99,.16,.99);
+      animation-fill-mode: forwards;
+    }
+  }
+  
+  &.animate {
+    animation: spring-scale $base-duration 0s 1 linear forwards;
+    
+    div, p, span, b {
+      animation-name: spring-scale;
+      animation-delay: 0;
+      animation-iteration-count: 1;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+div, p, i, b, span {
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 2.5rem;
+  width: 9rem;
+  height: 9rem;
+  line-height: 8rem;
+  vertical-align: middle;
+  margin: 0 auto;
+  border: .5rem solid #222;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: $alignment;
+  
+}
+
+i {
+  background: $light;
+  color: $primary;
+  border-color: $light;
+  animation: none;
+  backface-visibility: hidden;
+  perspective: 1200;
+}
+b {
+  width: 12.2rem;
+  height: 12.2rem;
+  border-width: .7rem;
+  border-color: $orange;
+  animation-duration: ring-animation-duration($base-duration, .5);
+}
+span {
+  width: 14rem;
+  height: 14rem;
+  border-color: $green;
+  animation-duration: ring-animation-duration($base-duration, 1.1);
+}
+p {
+  width: 16.1rem;
+  height: 16.1rem;
+  border-width: .6rem;
+  border-color: $yellow;
+  animation-duration: ring-animation-duration($base-duration, 2.2);
+}
+div {
+  width: 18rem;
+  height: 18rem;
+  border-color: $red;
+  animation-duration: ring-animation-duration($base-duration, 3.3);
+}
+
+@keyframes addHoldTension {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+  99%, 100% {
+    transform: translate3d(-50%, -50%, 0) scale(.25);
+  }
+}
