@@ -24,42 +24,42 @@ scene.add(plane);
 
 let geoms = [];
 //一个圆锥~圆柱
-// geoms.push(new THREE.CylinderGeometry(1, 4, 4));
+geoms.push(new THREE.CylinderGeometry(1, 4, 4));
 // //一个方块
-// geoms.push(new THREE.BoxGeometry(3, 3, 3));
+geoms.push(new THREE.BoxGeometry(3, 3, 3));
 // //球
-// geoms.push(new THREE.SphereGeometry(3, 20, 20));
+geoms.push(new THREE.SphereGeometry(3, 20, 20));
 // //二十面体
-// geoms.push(new THREE.IcosahedronGeometry(4));
+geoms.push(new THREE.IcosahedronGeometry(4));
 // //凸包:包围points的最小体积几何体
-// var points = [
-//     new THREE.Vector3(2, 2, 3),
-//     new THREE.Vector3(2, 3, -2),
-//     new THREE.Vector3(-3, 2, -2),
-//     new THREE.Vector3(-2, 2, 2),
-//     new THREE.Vector3(2, -2, 2),
-//     new THREE.Vector3(2, -2, -2),
-//     new THREE.Vector3(-2, -2, -2),
-//     new THREE.Vector3(-2, -2, 2)
-// ]
-// geoms.push(new THREE.ConvexGeometry(points));
+var points = [
+    new THREE.Vector3(2, 2, 3),
+    new THREE.Vector3(2, 3, -2),
+    new THREE.Vector3(-3, 2, -2),
+    new THREE.Vector3(-2, 2, 2),
+    new THREE.Vector3(2, -2, 2),
+    new THREE.Vector3(2, -2, -2),
+    new THREE.Vector3(-2, -2, -2),
+    new THREE.Vector3(-2, -2, 2)
+]
+geoms.push(new THREE.ConvexGeometry(points));
 // //车床模型
-// var pts = [];
-// var detail = 0.1;
-// var radius = 3;
-// for(var angle = 0.0; angle < Math.PI;angle += detail)
-//     pts.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * angle ));
-// geoms.push(new THREE.LatheGeometry(pts, 12));
+var pts = [];
+var detail = 0.1;
+var radius = 3;
+for(var angle = 0.0; angle < Math.PI;angle += detail)
+    pts.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * angle ));
+geoms.push(new THREE.LatheGeometry(pts, 12));
 // //八面体
-// geoms.push(new THREE.OctahedronGeometry(3));
+geoms.push(new THREE.OctahedronGeometry(3));
 // //参数化的几何体，克莱因瓶、莫比乌斯环等
-// geoms.push(new THREE.ParametricGeometry(THREE.ParametricGeometries.mobius3d, 20, 10));
+geoms.push(new THREE.ParametricGeometry(THREE.ParametricGeometries.mobius3d, 20, 10));
 // //四面体
-// geoms.push(new THREE.TetrahedronGeometry(3));
+geoms.push(new THREE.TetrahedronGeometry(3));
 // //环体
-// geoms.push(new THREE.TorusGeometry(3, 1, 10, 10));
+geoms.push(new THREE.TorusGeometry(3, 1, 10, 10));
 // //扭结
-// geoms.push(new THREE.TorusKnotGeometry(3, 0.5, 50, 20));
+geoms.push(new THREE.TorusKnotGeometry(3, 0.5, 50, 20));
 //用户自定义几何体
 let vertices = [
     new THREE.Vector3(0, 0, 0),
@@ -96,9 +96,9 @@ for(let i = 0, j = 0, length = geoms.length;i < length;i++){
         e.castShadow = true;
     });
 
-    mesh.position.x = 0//-24 + (i % 4) * 12;
+    mesh.position.x = -24 + (i % 4) * 12;
     mesh.position.y = 4;
-    mesh.position.z = 0//-8 + j * 12;
+    mesh.position.z = -8 + j * 12;
 
     if((i + 1) % 4 == 0) j++;
     meshs.push(mesh);

@@ -1,0 +1,1 @@
+console.log("this is main js for piece - radar in project cssonly")

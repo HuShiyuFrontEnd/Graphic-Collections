@@ -10,7 +10,7 @@ const RADIAN = 0.01745329252;//Math.PI / 180
 const Matrix = {
     Matrix12(x, y){
         let m = [
-            x, 
+            x,
             y
         ];
         m.spec = [1, 2];
@@ -366,7 +366,7 @@ class Sprite extends Container{
             this.ctx.setTransform(...child.matrix);
 
             let drawRect = [child.bound[0] + child.x - this.bound[0], child.bound[1] + child.y - this.bound[1], child.bound[2] - child.bound[0], child.bound[3] - child.bound[1]];
-            
+
             this.ctx.drawImage(child.buffer, ...drawRect);
 
             if(child.showBorder){
@@ -422,7 +422,7 @@ class Core{
             this._height = this.canvas.height = bound.height;
             this.ctx = this.canvas.getContext('2d');
         })
-        
+
         window.onresize = () => {
             this.whenResize();
         };

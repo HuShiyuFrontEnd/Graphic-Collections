@@ -25,6 +25,7 @@
     <fePointLight x="-250" y="-50" z="300" />
 </feSpecularLighting>
 <!--混合两个输入值并生成一个输出值-->
+<!--混合模式-->
 <feComposite operator="in" in="LIGHTING-EFFECTS_20" in2="SourceAlpha" result="LIGHTING-EFFECTS_30"/>
 <!--feTurbulence 利用Perlin噪点函数，实现了人造纹理，例如云朵、大理石-->
 <feTurbulence></feTurbulence>
@@ -37,6 +38,24 @@
             0 0 0 0 0
             0 0 0 1 0" />
 </filter>
+<!-- values: 
+    a00 a01 a02 a03 a04
+    a10 a11 a12 a13 a14 
+    a20 a21 a22 a23 a24
+    a30 a31 a32 a33 a34
+    0   0   0   0   1  //一般这一行省去了
+    matrix进行的事情是这样的：
+    | resultR |   | a00 a01 a02 a03 a04 | * | R |
+    | resultG |   | a10 a11 a12 a13 a14 | * | G |
+    | resultB | = | a20 a21 a22 a23 a24 | * | B |
+    | resultA |   | a30 a31 a32 a33 a34 | * | A |
+    |    1    |   | 0   0   0   0   1   | * | 1 |
+    计算可知：
+    resultR = R * a00 + G * a01 + B * a02 + A * a03 + a04
+    resultG = R * a10 + G * a11 + B * a12 + A * a13 + a14
+    resultB = R * a20 + G * a21 + B * a22 + A * a23 + a24
+    resultA = R * a30 + G * a31 + B * a32 + A * a33 + a34
+-->
 <!--type = saturate 调饱和度值，values是一个值，等于-->
 <!-- |0.213+0.787s  0.715-0.715s  0.072-0.072s 0  0 |
      |0.213-0.213s  0.715+0.285s  0.072-0.072s 0  0 |
@@ -63,3 +82,13 @@ sin(hueRotate value) *  [+0.143 +0.140-0.283]
 | A' |     | 0.2125   0.7154   0.0721  0  0 |   | A |
 | 1  |     |      0        0        0  0  1 |   | 1 |
 -->
+<feBlend></feBlend>
+<!--https://docs.gimp.org/2.8/zh_CN/plug-in-convmatrix.html-->
+<!--https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-image-processing.html-->
+<!--卷积内核-->
+<feConvolveMatrix></feConvolveMatrix>
+<!--光照-->
+<fediffuselighting></fediffuselighting>
+<!--位移-->
+<!--Squigglevision技术-->
+<feDisplacementMap></feDisplacementMap>

@@ -1,0 +1,35 @@
+<!-- https://codepen.io/yoksel/pen/ejajEg -->
+<svg width=100% height =100% viewbox="0 0 1920 1080">
+  <filter id="filter">
+    <feColorMatrix type="luminanceToAlpha" values="1 0 0 0 0
+  0 1 0 0 0
+  0 0 1 0 0
+  0 0 0 500 -100" in="SourceGraphic" result="colormatrix"/>
+    <feComposite k1="-3" k2="8" k3="-0.5" k4="-0.5" in="colormatrix" in2="SourceGraphic" operator="arithmetic" result="composite"/>
+    <feComposite k1="10" k2="8" k3="-0.5" k4="-0.5" in="colormatrix" in2="SourceGraphic" operator="arithmetic" result="composite2"/>
+    <feComposite k1="50" k2="8" k3="-0.5" k4="-0.5" in="colormatrix" in2="SourceGraphic" operator="arithmetic" result="composite4"/>
+    <feComposite k1="200" k2="8" k3="-0.5" k4="-0.5" in="colormatrix" in2="SourceGraphic" operator="arithmetic" result="composite6"/>
+    <feFlood flood-color="yellowgreen" flood-opacity="1" result="flood"/>
+    <feFlood flood-color="lightseagreen" flood-opacity="1" result="flood1"/>
+    <feFlood flood-color="teal" flood-opacity="1" result="flood2"/>
+    <feFlood flood-color="indigo" flood-opacity="1" result="flood3"/>
+    <feComposite in="flood" in2="composite" operator="in" result="composite1"/>
+    <feOffset dx="0" dy="2" result="offset"/>
+    <feComposite in="flood1" in2="composite2" operator="in" result="composite3"/>
+    <feOffset dx="3" dy="0" result="offset1"/>
+    <feComposite in="flood2" in2="composite4" operator="in" result="composite5"/>
+    <feOffset dx="0" dy="4" result="offset2"/>
+    <feComposite in="flood3" in2="composite6" operator="in" result="composite7"/>
+    <feOffset dx="5" dy="0" result="offset3"/> <!-- -->
+
+    <feMerge result="merge">
+      <feMergeNode in="SourceGraphic" result="mergeNode"/>
+      <feMergeNode in="offset3" result="mergeNode3"/>
+      <feMergeNode in="offset2" result="mergeNode"/>
+      <feMergeNode in="offset1" result="mergeNode2"/>
+      <feMergeNode in="offset" result="mergeNode1"/>
+    </feMerge>
+  </filter>
+  <image x="100" y="100" width="300" height="500" xlink:href="/static/assets/cat.jpg" filter="url(#filter)"></image>
+  <image x="500" y="100" width="200" height="200"  xlink:href="/static/assets/dog.jpg" filter="url(#filter)"></image>
+</svg>

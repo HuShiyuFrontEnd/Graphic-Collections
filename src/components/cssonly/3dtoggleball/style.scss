@@ -1,0 +1,106 @@
+// https://codepen.io/thebabydino/pen/ajpqYW
+
+html{
+    font-size:12px !important;
+}
+
+*{
+    box-sizing:content-box;
+}
+
+body{
+	perspective-origin:calc(50% + 10rem) calc(50% - 10rem);
+	perspective: 354px;
+	background: radial-gradient(#e5e5e5, #ddd);
+}
+
+input{
+    display:none;
+}
+
+input + label{
+    --s: 0;
+    width:120px;
+    height:70px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left:-60px;
+    margin-top:-35x;
+    border:8px solid #fff;
+    border-radius:60px;
+    transform: rotatex(90deg) rotate(12.5deg) rotatey(12.5deg);
+    transform-style: preserve-3d;
+    box-shadow: 
+        .5rem .875rem 0 -.25rem #e0e0e0, 
+        .625rem .625rem 0 -.25rem #e0e0e0, 
+        .5rem .875rem .625rem -.125rem rgba(#bfbfbf, .75), 
+        inset .125rem -.125rem .5rem rgba(#f5f5f5, .5), 
+        inset .75rem .75rem #dfdfdf, 
+        inset .75rem .75rem .75rem rgba(#bfbfbf, .85), 
+        inset 0 1rem .75rem rgba(#bfbfbf, .65)
+        ;
+	cursor: pointer;
+		
+    &:before, &:after {
+        position: absolute;
+        width: 70px; 
+        height: 70px; 
+        border-radius: 50%;
+        transition: .35s cubic-bezier(.21, .61, .35, 1);
+        content: ''
+    }
+		
+		
+    &:before {
+        top: calc(50% + .875rem);
+        transform-origin: 100% 0;
+        transform: translate(calc(var(--s)*(100% - 0.5rem))) scale(.8) skewx(-22.5deg);
+        background: radial-gradient(at 50% 25%, rgba(#a0a0a0, .65), transparent 70%);
+        filter: blur(3px)
+    }
+
+    &:after {
+        top: .875rem; left: .75rem;
+        transform: 
+            translate(calc(var(--s)*(100% - 0.5rem))) 
+            rotatey(-32.5deg)
+            rotate(-12.5deg) 
+            rotatex(-90deg) 
+            translatey(-50%) 
+            // rotate(45deg)
+        ;
+        box-shadow: -1px 1px .125rem rgba(#ceffce, .5);
+        background: 
+            radial-gradient(at 0 50%, #52a066, transparent 30px) 0 50%/ 65% 50% no-repeat, 
+            radial-gradient(at 50% 0%, #88d1a0 15%, #68b47d 35%, #66b47b, #77c28e 65%) 50%/ 200%;
+        filter: Grayscale(calc(1 - var(--s)))
+    }
+
+    div{
+        font-size:28px;
+        position: absolute;
+        bottom:-55px;
+        left:10px;
+        color:#A0A0A0;
+        transform:rotatex(5deg) rotatex(2.5deg);
+        user-select: none;
+        transition: .35s cubic-bezier(.21, .61, .35, 1);
+    }
+    .on{
+        color:#66B47B;
+        opacity:0;
+    }
+}
+
+input:checked + label{
+    --s:1;
+    .off{
+        left:60px;
+        opacity:0;
+    }
+    .on{
+        left:60px;
+        opacity:1;
+    }
+}

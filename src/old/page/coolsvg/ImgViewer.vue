@@ -106,10 +106,10 @@
                 // To.
             },
             touchEnd(){
-                
+
             },
             touchCancel(){
-                
+
             },
             moveTo(index){
                 this.current = index;

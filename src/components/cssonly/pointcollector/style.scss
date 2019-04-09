@@ -1,3 +1,7 @@
+$blue:#3af;
+$blueLight:#4bf;
+$red:#ff5455;
+
 body{
     cursor:not-allowed;
 }
@@ -14,37 +18,47 @@ input{
 }
 input[type=button]{
     padding:5px 10px;
-    background-color:#3af;
+    background-color:$blue;
     color:#fff;
     border-radius:2px;
 }
 input[type=button]:hover{
-    background-color:#4bf;
+    background-color:$blueLight;
 }
 input[type=text]{
     padding:5px 10px;
-    border:1px solid #3af;
-    color:#3af;
+    border:1px solid $blue;
+    color:$blue;
 }
 input::-webkit-input-placeholder{
-    color:#3af;
+    color:$blue;
 }
-img{
-    display:none;
-    border:1px solid #3af;
-    opacity:0;
-    transition:all 0.2s;
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
+.drawBoard{
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  img{
+      display:none;
+      border:1px solid $blue;
+      opacity:0;
+      transition:all 0.2s;
+      cursor:auto;
+      &.show{
+          display:block;
+      }
+      &.visible{
+          opacity:1;
+      }
+  }
+  canvas{
     cursor:auto;
-    &.show{
-        display:block;
-    }
-    &.visible{
-        opacity:1;
-    }
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+  }
 }
 #uploader{
     display:none;
@@ -71,4 +85,25 @@ img{
     left:353px;
     top:20px;
     cursor:pointer;
+}
+.tips{
+  position: absolute;
+  left:405px;
+  top:20px;
+  font-size:14px;
+  pointer-events: none;
+  color: $red;
+}
+.branchList{
+  position: absolute;
+  left:20px;
+  top:60px;
+  font-size:20px;
+  .branch{
+    transition:margin-left 0.2s;
+    &.current{
+      margin-left:10px;
+      color: $blue;
+    }
+  }
 }

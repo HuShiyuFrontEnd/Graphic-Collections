@@ -48,8 +48,8 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',  
-        exclude: /node_modules/,   
+        loader: 'ts-loader',
+        exclude: /node_modules/,
         options: {
           appendTsSuffixTo: [/\.vue$/],
         }
@@ -86,6 +86,15 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.(frag|vert|glsl)$/,
+        use: [
+          {
+            loader: 'glsl-shader-loader',
+            options: {}
+          }
+        ]
       }
     ]
   },

@@ -432,7 +432,7 @@ export default {
     .showing.huge-popup-main{
         transform: scale(1);
     }
-    
+
     video,#gifBg{
         position: fixed;
         left:0px;
@@ -440,7 +440,7 @@ export default {
         z-index:-1;
         opacity:1 !important;
     }
-// 'ltjh', 
+// 'ltjh',
     .container{
         max-width:100%;
         max-height:100%;

@@ -1,0 +1,68 @@
+<svg class="gradient-text" style="position: absolute; width: 0px; height: 0px; overflow: hidden;" xmlns="http://www.w3.org/2000/svg" width="0px" height="0px" viewBox="0 0 0 0">
+  <defs>
+    <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient_0">
+      <stop offset="0%" stop-color="rgba(172, 131, 98, 0.4)"></stop>
+      <stop offset="20%" stop-color="rgba(172, 131, 98, 1)"></stop>
+      <stop offset="60%" stop-color="rgba(172, 131, 98, 1)"></stop>
+      <stop offset="80%" stop-color="rgba(255, 255, 255, 1)"></stop>
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 1)"></stop>
+    </linearGradient>
+    <filter id="thicken">
+      <feMorphology operator="dilate" radius="20"></feMorphology>
+    </filter>
+    <filter id="thickenText">
+      <feMorphology operator="dilate" radius="1"></feMorphology>
+    </filter>
+    <filter id="fining">
+      <feMorphology operator="erode" radius="20"></feMorphology>
+    </filter>
+    <filter id="thicken2">
+      <feMorphology operator="dilate" radius="1" in="SourceGraph" result="thinken" />
+      <feOffset dx="1" dy="1" in="thinken" result="move" />
+      <feComposite operator="in" in="SourceGraph" in2="move" result="text" />
+    </filter>
+    <!--内发光-->
+    <filter id="insetShadow">
+     <feComponentTransfer in="SourceAlpha">
+       <feFuncA type="table" tableValues="1 0" />
+     </feComponentTransfer>
+     <feGaussianBlur stdDeviation="4"/>
+     <feOffset dx="0" dy="1" result="offsetblur"/>
+     <feFlood flood-color="#f00" result="color"/>
+     <feComposite in="color" in2="offsetblur" operator="in" result="colorblur" />
+     <feComposite in="colorblur" in2="SourceAlpha" operator="in" />
+     <feMerge>
+       <feMergeNode in="SourceGraphic" />
+       <feMergeNode />
+     </feMerge>
+   </filter>
+   <!--外发光-->
+   <filter id="outsideShadow">
+    <feGaussianBlur stdDeviation="4" result="blur"/>
+    <feMorphology in="blur" operator="dilate" radius="3" result="extendblur" />
+    <feOffset dx="0" dy="0" in="extendblur" result="offsetblur"/>
+    <feFlood flood-color="#f00" result="color"/>
+    <feComposite in="color" in2="offsetblur" operator="in" result="colorblur" />
+    <feComposite in="colorblur" in2="SourceAlpha" operator="out" />
+    <feMerge>
+      <feMergeNode in="SourceGraphic" />
+      <feMergeNode />
+    </feMerge>
+   </filter>
+   <filter id="linearAnimate">
+    <feImage id="linearImage" xlink:href="url(#linearGradient_0)" x=0 y=0 width=200 height=200 resulte="linear" />
+    <!-- <feComposite in="linear" in2="SourceGraphic" operator="in" result="colorblur" /> -->
+   </filter>
+  </defs>
+</svg>
+<svg class="gradient-text" xmlns="http://www.w3.org/2000/svg" width="100px" height="100px" viewBox="0 0 1500 1500">
+  <linearGradient x1="0%" y1="0%" x2="100%" y2="0%" id="iconGradient">
+    <stop offset="0%"  stop-color="#5bffff"/>
+    <stop offset="100%" stop-color="#2d83c3"/>
+  </linearGradient>
+  <path style="filter:url(#outsideShadow)" fill="#000" class='sector' style="fill:url('#iconGradient');" d = 'M16 521.6l480 480c0.8 0.8 2.4 2.4 4 3.2 0.8 0 1.6 0.8 1.6 0.8 0.8 0.8 1.6 0.8 2.4 1.6 0.8 0 1.6 0.8 2.4 0.8 0.8 0 1.6 0.8 2.4 0.8 1.6 0 3.2 0.8 4.8 0.8 1.6 0 3.2 0 4.8-0.8 0.8 0 1.6-0.8 2.4-0.8 0.8 0 1.6-0.8 2.4-0.8 0.8 0 1.6-0.8 2.4-0.8 0.8 0 1.6-0.8 1.6-0.8 1.6-0.8 2.4-1.6 3.2-3.2l480-480c9.6-9.6 9.6-24.8 0-34.4-9.6-9.6-24.8-9.6-34.4 0l-438.4 438.4V40c0-13.6-11.2-24-24-24-13.6 0-24 11.2-24 24v885.6L50.4 488c-4.8-4.8-11.2-7.2-16.8-7.2-6.4 0-12 2.4-16.8 7.2C6.4 497.6 6.4 512.8 16 521.6z'></path>
+</svg>
+<svg class="gradient-text" xmlns="http://www.w3.org/2000/svg" width="200px" height="200px" viewBox="0 0 200 200">
+  <rect style="filter:url('#linearAnimate')" x=20 y=20 width=160 height=160 fill="#fff" />
+</svg>
+<div style="filter:url('#thicken2')">下载</div>

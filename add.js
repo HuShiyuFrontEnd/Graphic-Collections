@@ -86,6 +86,34 @@ try{
             console.log('style.scss创建成功')
         })
         break;
+        case 'mapbox':
+        fs.writeFile(`${piecePath}/index.html`, '', (err) => {
+            if(err) throw err;
+            console.log('index.html创建成功')
+        })
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
+        fs.writeFile(`${piecePath}/style.scss`, '', (err) => {
+            if(err) throw err;
+            console.log('style.scss创建成功')
+        })
+        break;
+        case 'hightopo':
+        fs.writeFile(`${piecePath}/index.html`, '', (err) => {
+            if(err) throw err;
+            console.log('index.html创建成功')
+        })
+        fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
+            if(err) throw err;
+            console.log('index.js创建成功')
+        })
+        fs.writeFile(`${piecePath}/style.scss`, '', (err) => {
+            if(err) throw err;
+            console.log('style.scss创建成功')
+        })
+        break;
         case 'threejs':
         fs.writeFile(`${piecePath}/index.js`, `console.log("this is main js for piece - ${piece} in project ${project}")`, (err) => {
             if(err) throw err;
@@ -146,6 +174,12 @@ if(machineRouterOrigin[project].children.indexOf(piece) > -1){
                 break;
                 case 'gsap':
                 content += `"${piece}":{"main":() => import('@/components/gsap/${piece}/index.js'),"dom":() => import('@/components/gsap/${piece}/index.html'),"styles":[() => import('@/components/gsap/${piece}/style.scss')]},`;
+                break;
+                case 'mapbox':
+                content += `"${piece}":{"main":() => import('@/components/mapbox/${piece}/index.js'),"dom":() => import('@/components/mapbox/${piece}/index.html'),"styles":[() => import('@/components/mapbox/${piece}/style.scss')]},`;
+                break;
+                case 'hightopo':
+                content += `"${piece}":{"main":() => import('@/components/hightopo/${piece}/index.js'),"dom":() => import('@/components/hightopo/${piece}/index.html'),"styles":[() => import('@/components/hightopo/${piece}/style.scss')]},`;
                 break;
                 case 'threejs':
                 content += `"${piece}":{"main":() => import('@/components/threejs/${piece}/index.js')},`;

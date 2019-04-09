@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="0%" id="redToGreen">
+            <stop offset="0%"  stop-color="#ff0000"/>
+            <stop offset="100%" stop-color="#ffff00"/>
+        </linearGradient>
+        <filter id='feFlood'>
+            <feFlood id='feFloodNode' flood-color="#551C0B" flood-opacity='0.1'></feFlood>
+        </filter>
+        <filter id='feMorphology'>
+            <feMorphology id='feMorphologyNode' operator="erode" radius="1"></feMorphology>
+        </filter>
+        <filter id='feColorMatrix'>
+            <feColorMatrix id='feColorMatrixNode' in="SourceGraphic"
+                type="matrix"
+                values="0 0 0 0 0
+                        1 1 1 1 0
+                        0 0 0 0 0
+                        0 0 0 1 0" />
+            </filter>
+        </filter>
+        <filter id='feComponentTransfer'>
+            <feComponentTransfer id='feComponentTransferNode'>
+                <feFuncR type="identity"></feFuncR>
+                <feFuncG type="identity"></feFuncG>
+                <feFuncB type="identity"></feFuncB>
+                <feFuncA type="identity"></feFuncA>
+            </feComponentTransfer>
+        </filter>
+        <filter id='feConvolveMatrix'>
+            <feConvolveMatrix id='feConvolveMatrixNode'
+                kernelMatrix='0 0 0
+                              0 1 0
+                              0 0 0'></feConvolveMatrix>
+        </filter>
+        <filter id='feDiffuseLighting'>
+            <feDiffuseLighting id='feDiffuseLightingNode' lighting-color="#ffffff">
+                <fePointLight id='feDiffuseLightingNodeChild' x="150" y="60" z="20" />
+            </feDiffuseLighting>
+        </filter>
+        <filter id='feDisplacementMap'>
+            <feTurbulence baseFrequency="0.05" numOctaves="2" result='data'></feTurbulence>
+            <!-- <feImage xmlns:link='http://www.w3.org/2000/svg' xlink:href='/static/assets/ripple.png' result='data'/> -->
+            <feDisplacementMap in='SourceGraphic' in2='data' xChannelSelector='G' yChannelSelector='G' scale=50></feDisplacementMap>
+        </filter>
+        <filter id='feGaussianBlur'>
+            <feGaussianBlur id='feGaussianBlurNode' in="SourceGraphic" stdDeviation="3" ></feGaussianBlur>
+        </filter>
+        <filter id='feOffset'>
+            <feOffset></feOffset>
+        </filter>
+        <filter id='feTurbulence'>
+            <feTurbulence id='feTurbulenceNode' type='turbulence' baseFrequency="0.05" numOctaves="2"></feTurbulence>
+        </filter>
+    </defs>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+    <feImage xlink:href="url(#redToGreen)" />
+</svg>
+
+<div id='main' class="feColorMatrix">
+    <img width=200 src='/static/assets/test.jpg' />
+    <div contenteditable='true'>hello</div>
+</div>
+
+<!--
+https://codepen.io/airen/pen/rVGdVR
+https://www.w3cplus.com/svg/why-the-svg-filter-is-awesome.html
+https://codepen.io/scottkellum/pen/NePjMp
+https://codepen.io/yuanchuan/pen/mGWrJp
+https://codepen.io/aman-mehndiratta/pen/mzQdPy
+
+https://codepen.io/ste-vg/pen/zmqvNy
+https://codepen.io/giaco/pen/yGYmOQ chart animate
+-->
+
+<!--by css-->
+<!-- <img style='filter:blur(3px)' width=150 src='/static/assets/test.jpg' /> -->
+<!--by svg filter-->
+<!-- <svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <filter id='feGaussianBlur2'>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" ></feGaussianBlur>
+        </filter>
+        <!--马赛克效果/点阵效果
+        <filter id="pixels" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-color="green" flood-opacity="1" x="0" y="0" width="2" height="2" result="flood"/>
+            <feComposite id="composite" in="SourceAlpha" in2="flood" operator="in" x="0" y="0" width="5" height="5" result="composite"/>
+            <feTile x="0" y="0" width="1000" height="1000" in="composite" result="tile1"/>
+            <feComposite in="SourceGraphic" in2="tile1" operator="in" result="composite1"/>
+            <feMorphology id="morphology" operator="dilate" radius='3' in="composite1" result="morphology"/>
+        </filter>
+    </defs>
+</svg>
+<img preserveAspectRatio="xMidYMid slice" style='filter:url(#pixels)' width=150 src='/static/assets/test.jpg' /> -->
